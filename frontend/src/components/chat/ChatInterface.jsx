@@ -1,7 +1,7 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import useChatStore from '../../store/chatStore';
 
-const ChatInterface = () => {
+const ChatInterface = ({ onSourceClick }) => {
   const {
     messages,
     isTyping,
@@ -12,6 +12,7 @@ const ChatInterface = () => {
   } = useChatStore();
 
   const messagesEndRef = useRef(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -19,6 +20,13 @@ const ChatInterface = () => {
 
   useEffect(() => {
     scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    // Expand chat when there are messages
+    if (messages.length > 1) {
+      setIsExpanded(true);
+    }
   }, [messages]);
 
   const askQuestion = (question) => {
@@ -30,6 +38,13 @@ const ChatInterface = () => {
     if (currentInput.trim()) {
       sendMessage(currentInput);
       setCurrentInput('');
+      setIsExpanded(true);
+    }
+  };
+
+  const openSourceDocument = (source) => {
+    if (onSourceClick) {
+      onSourceClick(source.documentId);
     }
   };
 
@@ -41,47 +56,57 @@ const ChatInterface = () => {
   };
 
   return (
-    <section id="chatSection" className="section-wrapper" style={{
-      padding: 'var(--space-8) 0',
-      background: 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.5) 100%)'
+    <div id="chatSection" style={{
+      width: '100%',
+      height: '100%'
     }}>
-      <div className="container-sm">
         {/* Section Header */}
         <div style={{
-          textAlign: 'center',
-          marginBottom: 'var(--space-6)'
+          marginBottom: 'var(--space-3)'
         }}>
           <h2 style={{
-            fontSize: 'var(--font-size-4xl)',
+            fontSize: 'var(--font-size-3xl)',
             lineHeight: 'var(--line-height-tight)',
             fontWeight: 700,
-            color: 'var(--text-dark)',
-            marginBottom: 'var(--space-2)'
+            color: 'white',
+            marginBottom: 'var(--space-2)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-2)',
+            textShadow: '0 2px 8px rgba(0,0,0,0.2)'
           }}>
-            AI Demokrati-assistent
+            <span style={{ fontSize: 'var(--font-size-2xl)' }}>🤖</span>
+            Echo - AI Assistent
           </h2>
           <p style={{
             fontSize: 'var(--font-size-lg)',
-            color: 'var(--text-medium)',
-            lineHeight: 'var(--line-height-relaxed)'
+            color: 'rgba(255,255,255,0.9)',
+            lineHeight: 'var(--line-height-normal)',
+            textShadow: '0 1px 4px rgba(0,0,0,0.15)'
           }}>
-            Stil spørgsmål om kommunale beslutninger, dagsordener og politiske emner
+            Stil spørgsmål om kommunale beslutninger
           </p>
         </div>
 
         {/* Chat Container */}
-        <div className="glass-card" style={{
-          borderRadius: 'var(--radius-xl)',
-          overflow: 'hidden'
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.12)',
+          backdropFilter: 'blur(24px)',
+          borderRadius: 'var(--radius-2xl)',
+          overflow: 'hidden',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.25)',
+          border: '1px solid rgba(255,255,255,0.25)'
         }}>
           {/* Messages Area */}
           <div style={{
-            height: '384px',
+            height: isExpanded ? '600px' : '450px',
             overflowY: 'auto',
             padding: 'var(--space-3)',
             display: 'flex',
             flexDirection: 'column',
-            gap: 'var(--space-2)'
+            gap: 'var(--space-2)',
+            background: 'rgba(255,255,255,0.1)',
+            transition: 'height var(--transition-base)'
           }}>
             {messages.map((message) => (
               <div
@@ -94,45 +119,91 @@ const ChatInterface = () => {
                   flexDirection: message.type === 'user' ? 'row-reverse' : 'row'
                 }}
               >
-                {/* Avatar */}
+                {/* Avatar - Compact */}
                 <div style={{
                   flexShrink: 0,
                   height: '32px',
                   width: '32px',
                   borderRadius: '50%',
-                  background: message.type === 'ai' ? 'var(--primary-blue)' : 'var(--secondary-green)',
+                  background: message.type === 'ai'
+                    ? 'linear-gradient(135deg, var(--primary-terracotta), var(--secondary-blue))'
+                    : 'linear-gradient(135deg, var(--secondary-blue), var(--primary-terracotta))',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: 'white',
-                  fontSize: 'var(--font-size-sm)',
-                  fontWeight: 600
+                  fontSize: 'var(--font-size-xs)',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
                 }}>
-                  {message.type === 'ai' ? 'AI' : 'DU'}
+                  {message.type === 'ai' ? '🤖' : '👤'}
                 </div>
 
-                {/* Message Bubble */}
+                {/* Message Bubble - Compact */}
                 <div style={{
                   flex: 1,
-                  background: message.type === 'ai' ? 'white' : 'var(--primary-blue)',
+                  background: message.type === 'ai' ? 'white' : 'var(--primary-terracotta)',
                   color: message.type === 'ai' ? 'var(--text-dark)' : 'white',
-                  borderRadius: 'var(--radius-md)',
+                  borderRadius: message.type === 'ai'
+                    ? '0 var(--radius-lg) var(--radius-lg) var(--radius-lg)'
+                    : 'var(--radius-lg) 0 var(--radius-lg) var(--radius-lg)',
                   padding: 'var(--space-2)',
-                  boxShadow: 'var(--shadow-sm)',
-                  maxWidth: '80%'
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                  maxWidth: '75%',
+                  border: message.type === 'ai' ? '1px solid rgba(0,0,0,0.08)' : 'none'
                 }}>
                   <p style={{
-                    fontSize: 'var(--font-size-base)',
+                    fontSize: 'var(--font-size-sm)',
                     lineHeight: 'var(--line-height-relaxed)',
-                    marginBottom: 0
+                    marginBottom: message.sources ? 'var(--space-2)' : 0
                   }}>
                     {message.content}
                   </p>
+
+                  {/* Sources - if AI message has sources */}
+                  {message.type === 'ai' && message.sources && (
+                    <div style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 'var(--space-1)',
+                      marginTop: 'var(--space-2)',
+                      paddingTop: 'var(--space-2)',
+                      borderTop: '1px solid rgba(0,0,0,0.08)'
+                    }}>
+                      {message.sources.map((source, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => openSourceDocument(source)}
+                          style={{
+                            fontSize: 'var(--font-size-xs)',
+                            padding: '4px 8px',
+                            background: 'var(--primary-terracotta)',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: 'var(--radius-sm)',
+                            cursor: 'pointer',
+                            transition: 'all var(--transition-fast)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.background = 'var(--primary-terracotta-dark)';
+                            e.target.style.transform = 'scale(1.05)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.background = 'var(--primary-terracotta)';
+                            e.target.style.transform = 'scale(1)';
+                          }}
+                        >
+                          📄 {source.title} (s. {source.page})
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
 
-            {/* Typing Indicator */}
+            {/* Typing Indicator - Compact */}
             {isTyping && (
               <div className="chat-message" style={{
                 display: 'flex',
@@ -143,21 +214,21 @@ const ChatInterface = () => {
                   height: '32px',
                   width: '32px',
                   borderRadius: '50%',
-                  background: 'var(--primary-blue)',
+                  background: 'linear-gradient(135deg, var(--primary-terracotta), var(--secondary-blue))',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: 'white',
-                  fontSize: 'var(--font-size-sm)',
-                  fontWeight: 600
+                  fontSize: 'var(--font-size-xs)',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.12)'
                 }}>
-                  AI
+                  🤖
                 </div>
                 <div className="typing-indicator" style={{
                   background: 'white',
-                  borderRadius: 'var(--radius-md)',
+                  borderRadius: '0 var(--radius-lg) var(--radius-lg) var(--radius-lg)',
                   padding: 'var(--space-2)',
-                  boxShadow: 'var(--shadow-sm)'
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                  border: '1px solid rgba(0,0,0,0.08)'
                 }}>
                   <span></span>
                   <span></span>
@@ -171,18 +242,28 @@ const ChatInterface = () => {
           {/* Example Questions */}
           <div style={{
             padding: 'var(--space-2)',
-            borderTop: '1px solid var(--border-color)',
-            background: 'rgba(255,255,255,0.5)',
+            borderTop: '1px solid rgba(255,255,255,0.1)',
+            background: 'rgba(255,255,255,0.05)',
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
             gap: 'var(--space-1)'
           }}>
-            {exampleQuestions.map((q) => (
+            {exampleQuestions.slice(0, 3).map((q) => (
               <button
                 key={q.id}
                 onClick={() => askQuestion(q.text)}
                 className="btn btn-outline btn-sm"
+                style={{
+                  borderRadius: '50px',
+                  padding: '4px 12px',
+                  fontSize: 'var(--font-size-xs)',
+                  fontWeight: 500,
+                  transition: 'all var(--transition-base)',
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'white'
+                }}
               >
                 {q.icon} {q.text.split(' ').slice(0, 3).join(' ')}...
               </button>
@@ -191,46 +272,65 @@ const ChatInterface = () => {
 
           {/* Input Area */}
           <div style={{
-            borderTop: '1px solid var(--border-color)',
+            borderTop: '1px solid rgba(255,255,255,0.1)',
             padding: 'var(--space-2)',
-            background: 'white'
+            background: 'rgba(255,255,255,0.05)'
           }}>
             <div style={{
               display: 'flex',
-              gap: 'var(--space-2)'
+              gap: 'var(--space-2)',
+              alignItems: 'center'
             }}>
               <input
                 type="text"
                 value={currentInput}
                 onChange={(e) => setCurrentInput(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Stil et spørgsmål..."
+                placeholder="Stil dit spørgsmål..."
                 className="chat-input"
                 style={{
                   flex: 1,
-                  border: '1px solid var(--border-color)',
-                  borderRadius: 'var(--radius-md)',
-                  padding: 'var(--space-1) var(--space-2)',
-                  fontSize: 'var(--font-size-base)',
-                  outline: 'none'
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  borderRadius: '50px',
+                  padding: 'var(--space-1) var(--space-3)',
+                  fontSize: 'var(--font-size-sm)',
+                  outline: 'none',
+                  transition: 'all var(--transition-base)',
+                  background: 'rgba(255,255,255,0.1)',
+                  color: 'white'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.5)';
+                  e.target.style.background = 'rgba(255,255,255,0.15)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'rgba(255,255,255,0.3)';
+                  e.target.style.background = 'rgba(255,255,255,0.1)';
                 }}
               />
               <button
                 onClick={handleSendMessage}
-                className="btn btn-primary"
                 disabled={!currentInput.trim()}
                 style={{
+                  background: 'linear-gradient(135deg, var(--primary-terracotta), var(--primary-terracotta-dark))',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '50px',
+                  padding: 'var(--space-1) var(--space-3)',
+                  fontSize: 'var(--font-size-sm)',
+                  fontWeight: 600,
                   opacity: currentInput.trim() ? 1 : 0.5,
-                  cursor: currentInput.trim() ? 'pointer' : 'not-allowed'
+                  cursor: currentInput.trim() ? 'pointer' : 'not-allowed',
+                  transition: 'all var(--transition-base)',
+                  boxShadow: currentInput.trim() ? '0 2px 8px rgba(193, 85, 77, 0.3)' : 'none'
                 }}
               >
-                Send
+                →
               </button>
             </div>
           </div>
         </div>
       </div>
-    </section>
   );
 };
 

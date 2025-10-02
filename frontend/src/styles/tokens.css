@@ -1,21 +1,44 @@
 /* Design Tokens - Nærdemokrati Platform */
 
 :root {
-  /* Kalundborg Kommune farver - baseret på dansk kommunal identitet */
-  --primary-blue: #0055A4;
-  --primary-blue-light: #3380C8;
-  --primary-blue-dark: #003D7A;
-  --primary-blue-hover: #003D7A;
-  --secondary-green: #6BA539;
-  --secondary-green-light: #8BC34A;
-  --secondary-green-hover: #5A8F2F;
-  --accent-orange: #FF6B35;
-  --accent-orange-hover: #E55520;
+  /* Kalundborg Kommune farver - teglrød primærfarve fra officielt logo */
+  --primary-terracotta: #C1554D;
+  --primary-terracotta-light: #E89A95;
+  --primary-terracotta-dark: #8F3B36;
+  --primary-terracotta-hover: #A3423C;
+
+  /* Sekundære farver - forbedret blå palette */
+  --secondary-blue: #2C5F96;
+  --secondary-blue-light: #4A7FB8;
+  --secondary-blue-dark: #1E4469;
+  --secondary-blue-hover: #234D7A;
+
+  /* Accent farver */
+  --secondary-green: #4A9E3E;
+  --secondary-green-light: #6BC05F;
+  --secondary-green-dark: #3A7F31;
+  --secondary-green-hover: #3F8B35;
+
+  --accent-orange: #E67E50;
+  --accent-orange-hover: #D06C42;
+  --accent-purple: #6B5CA5;
+  --accent-yellow: #F0B429;
+
+  /* Neutrale farver */
   --neutral-gray: #F5F7FA;
-  --text-dark: #1F2937;
-  --text-medium: #6B7280;
-  --text-light: #9CA3AF;
-  --border-color: #E5E7EB;
+  --neutral-gray-dark: #E8ECF1;
+  --neutral-warm: #F9F5F3;
+  --neutral-white: #FFFFFF;
+
+  /* Tekst farver */
+  --text-dark: #1A2332;
+  --text-medium: #4A5568;
+  --text-light: #718096;
+  --text-white: #FFFFFF;
+
+  /* Border farver */
+  --border-color: #E2E8F0;
+  --border-color-dark: #CBD5E0;
 
   /* Spacing System - 8pt Grid */
   --space-1: 8px;

@@ -1,8 +1,7 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import useUserStore from '../../store/userStore';
 
 const Navigation = () => {
-  const location = useLocation();
   const { user, setUserRole } = useUserStore();
 
   const switchView = (role) => {
@@ -11,12 +10,12 @@ const Navigation = () => {
 
   return (
     <nav className="top-nav" style={{
-      background: 'linear-gradient(135deg, var(--primary-blue-dark) 0%, var(--primary-blue) 100%)',
+      background: 'linear-gradient(135deg, var(--primary-terracotta-dark) 0%, var(--primary-terracotta) 100%)',
       color: 'white',
       position: 'sticky',
       top: 0,
-      zIndex: var(--z-sticky),
-      boxShadow: var(--shadow-lg)
+      zIndex: 100,
+      boxShadow: '0 4px 12px rgba(193,85,77,0.2)'
     }}>
       <div className="container" style={{
         display: 'flex',
@@ -28,16 +27,25 @@ const Navigation = () => {
         <Link to="/" style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 'var(--space-2)',
+          gap: 'var(--space-3)',
           color: 'white',
           textDecoration: 'none'
         }}>
+          <img
+            src="/kalundborg-logo.jpg"
+            alt="Kalundborg Kommune"
+            style={{
+              height: '50px',
+              width: 'auto',
+              filter: 'brightness(0) invert(1)'
+            }}
+          />
           <div>
             <h1 style={{ fontSize: 'var(--font-size-2xl)', fontWeight: 700, marginBottom: '2px' }}>
               Nærdemokrati
             </h1>
-            <p style={{ fontSize: 'var(--font-size-sm)', opacity: 0.8, marginBottom: 0 }}>
-              Kalundborg Kommune
+            <p style={{ fontSize: 'var(--font-size-sm)', opacity: 0.9, marginBottom: 0 }}>
+              Digital Borgerportal
             </p>
           </div>
         </Link>
