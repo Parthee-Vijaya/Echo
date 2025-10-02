@@ -1,0 +1,26 @@
+{
+  "name": "naerdemokrati-app",
+  "version": "1.0.0",
+  "description": "Nærdemokrati Platform - Kalundborg Kommune Web App",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "npm install && npm install --workspaces",
+    "build": "cd frontend && npm run build",
+    "clean": "npm run clean:workspaces && rm -rf node_modules package-lock.json",
+    "clean:workspaces": "rm -rf */node_modules */package-lock.json"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
