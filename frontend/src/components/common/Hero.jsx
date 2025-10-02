@@ -1,4 +1,18 @@
+import { useState, useEffect } from 'react';
+import { getRandomStats } from '../../data/statsData';
+
 const Hero = () => {
+  const [currentStats, setCurrentStats] = useState(getRandomStats(3));
+
+  // Rotate stats every minute (60000ms)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentStats(getRandomStats(3));
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -88,75 +102,60 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Stats Cards */}
+        {/* Stats Cards - Rotating every minute */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
           gap: 'var(--space-4)',
           marginTop: 'var(--space-8)'
         }}>
-          <div className="glass-dark card-hover" style={{
-            borderRadius: 'var(--radius-lg)',
-            padding: 'var(--space-3)',
-            textAlign: 'center',
-            border: '1px solid rgba(255,255,255,0.2)'
-          }}>
-            <div style={{
-              fontSize: 'var(--font-size-5xl)',
-              fontWeight: 700,
-              marginBottom: 'var(--space-1)'
-            }}>
-              2,847
+          {currentStats.map((stat, index) => (
+            <div
+              key={`${stat.value}-${index}`}
+              className="glass-dark card-hover"
+              style={{
+                borderRadius: 'var(--radius-lg)',
+                padding: 'var(--space-3)',
+                textAlign: 'center',
+                border: '1px solid rgba(255,255,255,0.2)',
+                animation: 'fadeIn 0.6s ease-in-out'
+              }}
+            >
+              <div style={{
+                fontSize: 'var(--font-size-5xl)',
+                fontWeight: 700,
+                marginBottom: 'var(--space-1)'
+              }}>
+                {stat.value}
+              </div>
+              <div style={{
+                color: 'rgba(255,255,255,0.9)',
+                fontSize: 'var(--font-size-base)',
+                lineHeight: 'var(--line-height-relaxed)'
+              }}>
+                {stat.label}
+              </div>
+              <div style={{
+                marginTop: 'var(--space-1)',
+                fontSize: 'var(--font-size-xs)',
+                color: 'rgba(255,255,255,0.6)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em'
+              }}>
+                {stat.category}
+              </div>
             </div>
-            <div style={{
-              color: 'rgba(255,255,255,0.9)',
-              fontSize: 'var(--font-size-base)'
-            }}>
-              Dokumenter tilgængelige
-            </div>
-          </div>
+          ))}
+        </div>
 
-          <div className="glass-dark card-hover" style={{
-            borderRadius: 'var(--radius-lg)',
-            padding: 'var(--space-3)',
-            textAlign: 'center',
-            border: '1px solid rgba(255,255,255,0.2)'
-          }}>
-            <div style={{
-              fontSize: 'var(--font-size-5xl)',
-              fontWeight: 700,
-              marginBottom: 'var(--space-1)'
-            }}>
-              15,392
-            </div>
-            <div style={{
-              color: 'rgba(255,255,255,0.9)',
-              fontSize: 'var(--font-size-base)'
-            }}>
-              Spørgsmål besvaret
-            </div>
-          </div>
-
-          <div className="glass-dark card-hover" style={{
-            borderRadius: 'var(--radius-lg)',
-            padding: 'var(--space-3)',
-            textAlign: 'center',
-            border: '1px solid rgba(255,255,255,0.2)'
-          }}>
-            <div style={{
-              fontSize: 'var(--font-size-5xl)',
-              fontWeight: 700,
-              marginBottom: 'var(--space-1)'
-            }}>
-              98%
-            </div>
-            <div style={{
-              color: 'rgba(255,255,255,0.9)',
-              fontSize: 'var(--font-size-base)'
-            }}>
-              Tilfredshed
-            </div>
-          </div>
+        {/* Next update indicator */}
+        <div style={{
+          textAlign: 'center',
+          marginTop: 'var(--space-2)',
+          fontSize: 'var(--font-size-xs)',
+          color: 'rgba(255,255,255,0.6)'
+        }}>
+          ↻ Opdateres automatisk hvert minut
         </div>
       </div>
     </section>
