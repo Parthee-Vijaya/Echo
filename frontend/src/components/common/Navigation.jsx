@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import useUserStore from '../../store/userStore';
 
 const Navigation = () => {
-  const [activeView, setActiveView] = useState('borger');
   const location = useLocation();
+  const { user, setUserRole } = useUserStore();
 
-  const switchView = (view) => {
-    setActiveView(view);
-    // Could trigger route change or store update here
+  const switchView = (role) => {
+    setUserRole(role);
   };
 
   return (
@@ -53,36 +52,36 @@ const Navigation = () => {
           }}>
             <button
               onClick={() => switchView('borger')}
-              className={activeView === 'borger' ? 'glass-dark' : ''}
+              className={user.role === 'borger' ? 'glass-dark' : ''}
               style={{
                 padding: 'var(--space-1) var(--space-2)',
                 borderRadius: 'var(--radius-md)',
                 fontSize: 'var(--font-size-sm)',
                 fontWeight: 500,
-                color: activeView === 'borger' ? 'white' : 'rgba(255,255,255,0.7)',
-                background: activeView === 'borger' ? 'rgba(255,255,255,0.1)' : 'transparent',
+                color: user.role === 'borger' ? 'white' : 'rgba(255,255,255,0.7)',
+                background: user.role === 'borger' ? 'rgba(255,255,255,0.1)' : 'transparent',
                 border: 'none',
                 cursor: 'pointer',
                 transition: 'all var(--transition-base)',
-                boxShadow: activeView === 'borger' ? 'var(--shadow-sm)' : 'none'
+                boxShadow: user.role === 'borger' ? 'var(--shadow-sm)' : 'none'
               }}
             >
               👤 Borger
             </button>
             <button
               onClick={() => switchView('politiker')}
-              className={activeView === 'politiker' ? 'glass-dark' : ''}
+              className={user.role === 'politiker' ? 'glass-dark' : ''}
               style={{
                 padding: 'var(--space-1) var(--space-2)',
                 borderRadius: 'var(--radius-md)',
                 fontSize: 'var(--font-size-sm)',
                 fontWeight: 500,
-                color: activeView === 'politiker' ? 'white' : 'rgba(255,255,255,0.7)',
-                background: activeView === 'politiker' ? 'rgba(255,255,255,0.1)' : 'transparent',
+                color: user.role === 'politiker' ? 'white' : 'rgba(255,255,255,0.7)',
+                background: user.role === 'politiker' ? 'rgba(255,255,255,0.1)' : 'transparent',
                 border: 'none',
                 cursor: 'pointer',
                 transition: 'all var(--transition-base)',
-                boxShadow: activeView === 'politiker' ? 'var(--shadow-sm)' : 'none'
+                boxShadow: user.role === 'politiker' ? 'var(--shadow-sm)' : 'none'
               }}
             >
               🏛️ Politiker
@@ -104,14 +103,14 @@ const Navigation = () => {
               fontWeight: 600,
               fontSize: 'var(--font-size-sm)'
             }}>
-              JN
+              {user.initials}
             </div>
             <div style={{ display: 'none' }} className="md:block">
               <p style={{ fontSize: 'var(--font-size-sm)', fontWeight: 500, marginBottom: 0 }}>
-                Jens Nielsen
+                {user.name}
               </p>
               <p style={{ fontSize: 'var(--font-size-xs)', opacity: 0.7, marginBottom: 0 }}>
-                jens@email.dk
+                {user.email}
               </p>
             </div>
           </div>

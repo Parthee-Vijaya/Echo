@@ -1,15 +1,16 @@
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
+import useChatStore from '../../store/chatStore';
 
 const ChatInterface = () => {
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      type: 'ai',
-      content: 'Hej! Jeg er din demokrati-assistent. Jeg kan hjælpe dig med at forstå kommunale beslutninger, finde relevante dokumenter og besvare spørgsmål om lokalpolitik. Hvad vil du gerne vide?'
-    }
-  ]);
-  const [inputValue, setInputValue] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
+  const {
+    messages,
+    isTyping,
+    currentInput,
+    setCurrentInput,
+    sendMessage,
+    exampleQuestions
+  } = useChatStore();
+
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -21,41 +22,21 @@ const ChatInterface = () => {
   }, [messages]);
 
   const askQuestion = (question) => {
-    setInputValue(question);
+    setCurrentInput('');
     sendMessage(question);
   };
 
-  const sendMessage = async (customMessage) => {
-    const messageText = customMessage || inputValue;
-    if (!messageText.trim()) return;
-
-    // Add user message
-    const userMessage = {
-      id: Date.now(),
-      type: 'user',
-      content: messageText
-    };
-
-    setMessages(prev => [...prev, userMessage]);
-    setInputValue('');
-    setIsTyping(true);
-
-    // Simulate AI response (replace with actual API call)
-    setTimeout(() => {
-      const aiMessage = {
-        id: Date.now() + 1,
-        type: 'ai',
-        content: `Jeg har modtaget dit spørgsmål: "${messageText}". Dette er en demo-respons. I produktion ville jeg søge i kommunens dokumenter og give dig et præcist svar baseret på de seneste beslutninger og dagsordener.`
-      };
-      setMessages(prev => [...prev, aiMessage]);
-      setIsTyping(false);
-    }, 1500);
+  const handleSendMessage = () => {
+    if (currentInput.trim()) {
+      sendMessage(currentInput);
+      setCurrentInput('');
+    }
   };
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      sendMessage();
+      handleSendMessage();
     }
   };
 
@@ -197,24 +178,15 @@ const ChatInterface = () => {
             justifyContent: 'center',
             gap: 'var(--space-1)'
           }}>
-            <button
-              onClick={() => askQuestion('Hvad blev besluttet om klimaplan 2030?')}
-              className="btn btn-outline btn-sm"
-            >
-              💡 Klimaplan 2030?
-            </button>
-            <button
-              onClick={() => askQuestion('Hvornår er næste byrådsmøde?')}
-              className="btn btn-outline btn-sm"
-            >
-              📅 Næste møde?
-            </button>
-            <button
-              onClick={() => askQuestion('Hvad er budgettet til skoler i år?')}
-              className="btn btn-outline btn-sm"
-            >
-              🏫 Skolebudget?
-            </button>
+            {exampleQuestions.map((q) => (
+              <button
+                key={q.id}
+                onClick={() => askQuestion(q.text)}
+                className="btn btn-outline btn-sm"
+              >
+                {q.icon} {q.text.split(' ').slice(0, 3).join(' ')}...
+              </button>
+            ))}
           </div>
 
           {/* Input Area */}
@@ -229,8 +201,8 @@ const ChatInterface = () => {
             }}>
               <input
                 type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                value={currentInput}
+                onChange={(e) => setCurrentInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Stil et spørgsmål..."
                 className="chat-input"
@@ -244,12 +216,12 @@ const ChatInterface = () => {
                 }}
               />
               <button
-                onClick={() => sendMessage()}
+                onClick={handleSendMessage}
                 className="btn btn-primary"
-                disabled={!inputValue.trim()}
+                disabled={!currentInput.trim()}
                 style={{
-                  opacity: inputValue.trim() ? 1 : 0.5,
-                  cursor: inputValue.trim() ? 'pointer' : 'not-allowed'
+                  opacity: currentInput.trim() ? 1 : 0.5,
+                  cursor: currentInput.trim() ? 'pointer' : 'not-allowed'
                 }}
               >
                 Send
