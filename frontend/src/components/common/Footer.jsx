@@ -1,10 +1,11 @@
 const Footer = () => {
   return (
     <footer style={{
-      background: 'linear-gradient(135deg, var(--primary-blue-dark) 0%, var(--primary-blue) 100%)',
+      background: 'linear-gradient(180deg, rgba(30, 68, 105, 0.95) 0%, rgba(22, 52, 81, 1) 100%)',
       color: 'white',
-      padding: 'var(--space-8) 0 var(--space-4) 0',
-      marginTop: 'var(--space-10)'
+      padding: 'var(--space-10) 0 var(--space-4) 0',
+      marginTop: 'var(--space-12)',
+      borderTop: '1px solid rgba(255,255,255,0.1)'
     }}>
       <div className="container">
         {/* Main Footer Content */}
@@ -17,20 +18,37 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <h3 style={{
-              fontSize: 'var(--font-size-xl)',
+              fontSize: 'var(--font-size-2xl)',
               fontWeight: 700,
-              marginBottom: 'var(--space-2)'
+              marginBottom: 'var(--space-3)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-2)'
             }}>
-              Nærdemokrati Platform
+              <span style={{ fontSize: 'var(--font-size-3xl)' }}>🏛️</span>
+              Nærdemokrati
             </h3>
             <p style={{
               fontSize: 'var(--font-size-base)',
               lineHeight: 'var(--line-height-relaxed)',
-              color: 'rgba(255,255,255,0.8)'
+              color: 'rgba(255,255,255,0.85)',
+              marginBottom: 'var(--space-2)'
             }}>
               Din digitale indgang til Kalundborg Kommune's beslutninger, møder og dokumenter.
               AI-assisteret indsigt for bedre demokratisk deltagelse.
             </p>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 'var(--space-1)',
+              padding: '6px 12px',
+              background: 'rgba(255,255,255,0.1)',
+              borderRadius: 'var(--radius-full)',
+              fontSize: 'var(--font-size-sm)',
+              marginTop: 'var(--space-2)'
+            }}>
+              🤖 <span style={{ opacity: 0.9 }}>Powered by Echo AI</span>
+            </div>
           </div>
 
           {/* Quick Links */}
@@ -127,92 +145,130 @@ const Footer = () => {
               marginBottom: 'var(--space-3)'
             }}>
               <a href="#" style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                background: 'rgba(255,255,255,0.2)',
+                width: '44px',
+                height: '44px',
+                borderRadius: 'var(--radius-lg)',
+                background: 'rgba(255,255,255,0.15)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 'var(--font-size-lg)',
+                fontSize: 'var(--font-size-xl)',
                 textDecoration: 'none',
-                transition: 'all var(--transition-base)'
-              }}>
+                transition: 'all 0.3s ease',
+                border: '1px solid rgba(255,255,255,0.2)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255,255,255,0.25)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255,255,255,0.15)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+              >
                 📘
               </a>
               <a href="#" style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                background: 'rgba(255,255,255,0.2)',
+                width: '44px',
+                height: '44px',
+                borderRadius: 'var(--radius-lg)',
+                background: 'rgba(255,255,255,0.15)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 'var(--font-size-lg)',
+                fontSize: 'var(--font-size-xl)',
                 textDecoration: 'none',
-                transition: 'all var(--transition-base)'
-              }}>
+                transition: 'all 0.3s ease',
+                border: '1px solid rgba(255,255,255,0.2)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255,255,255,0.25)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255,255,255,0.15)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+              >
                 🐦
               </a>
               <a href="#" style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                background: 'rgba(255,255,255,0.2)',
+                width: '44px',
+                height: '44px',
+                borderRadius: 'var(--radius-lg)',
+                background: 'rgba(255,255,255,0.15)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: 'var(--font-size-lg)',
+                fontSize: 'var(--font-size-xl)',
                 textDecoration: 'none',
-                transition: 'all var(--transition-base)'
-              }}>
+                transition: 'all 0.3s ease',
+                border: '1px solid rgba(255,255,255,0.2)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255,255,255,0.25)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255,255,255,0.15)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+              >
                 📷
               </a>
-            </div>
-            <div style={{
-              fontSize: 'var(--font-size-sm)',
-              color: 'rgba(255,255,255,0.6)'
-            }}>
-              🤖 Powered by AI
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
         <div style={{
-          borderTop: '1px solid rgba(255,255,255,0.2)',
-          paddingTop: 'var(--space-3)',
+          borderTop: '1px solid rgba(255,255,255,0.15)',
+          paddingTop: 'var(--space-4)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: 'var(--space-2)',
-          fontSize: 'var(--font-size-sm)',
-          color: 'rgba(255,255,255,0.6)'
+          gap: 'var(--space-3)',
+          fontSize: 'var(--font-size-sm)'
         }}>
-          <div>
+          <div style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>
             © 2025 Kalundborg Kommune. Alle rettigheder forbeholdes.
           </div>
           <div style={{
             display: 'flex',
-            gap: 'var(--space-3)'
+            gap: 'var(--space-4)'
           }}>
             <a href="#" style={{
-              color: 'rgba(255,255,255,0.6)',
-              textDecoration: 'none'
-            }}>
+              color: 'rgba(255,255,255,0.7)',
+              textDecoration: 'none',
+              transition: 'all 0.3s ease',
+              fontWeight: 500
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
+            >
               Privatlivspolitik
             </a>
             <a href="#" style={{
-              color: 'rgba(255,255,255,0.6)',
-              textDecoration: 'none'
-            }}>
+              color: 'rgba(255,255,255,0.7)',
+              textDecoration: 'none',
+              transition: 'all 0.3s ease',
+              fontWeight: 500
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
+            >
               Cookiepolitik
             </a>
             <a href="#" style={{
-              color: 'rgba(255,255,255,0.6)',
-              textDecoration: 'none'
-            }}>
+              color: 'rgba(255,255,255,0.7)',
+              textDecoration: 'none',
+              transition: 'all 0.3s ease',
+              fontWeight: 500
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'white'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
+            >
               Tilgængelighed
             </a>
           </div>
