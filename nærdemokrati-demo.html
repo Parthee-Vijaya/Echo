@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nærdemokrati Platform - Kalundborg Kommune</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        :root {
+            /* Kalundborg Kommune farver - baseret på dansk kommunal identitet */
+            --primary-blue: #0055A4;
+            --primary-blue-light: #3380C8;
+            --primary-blue-dark: #003D7A;
+            --primary-blue-hover: #003D7A;
+            --secondary-green: #6BA539;
+            --secondary-green-light: #8BC34A;
+            --secondary-green-hover: #5A8F2F;
+            --accent-orange: #FF6B35;
+            --accent-orange-hover: #E55520;
+            --neutral-gray: #F5F7FA;
+            --text-dark: #1F2937;
+            --text-medium: #6B7280;
+            --text-light: #9CA3AF;
+
+            /* Spacing System - 8pt Grid */
+            --space-1: 8px;
+            --space-2: 16px;
+            --space-3: 24px;
+            --space-4: 32px;
+            --space-5: 40px;
+            --space-6: 48px;
+            --space-8: 64px;
+            --space-10: 80px;
+            --space-12: 96px;
+
+            /* Typography Scale */
+            --font-size-xs: 0.75rem;    /* 12px */
+            --font-size-sm: 0.875rem;   /* 14px */
+            --font-size-base: 1rem;     /* 16px */
+            --font-size-lg: 1.125rem;   /* 18px */
+            --font-size-xl: 1.25rem;    /* 20px */
+            --font-size-2xl: 1.5rem;    /* 24px */
+            --font-size-3xl: 1.875rem;  /* 30px */
+            --font-size-4xl: 2.25rem;   /* 36px */
+            --font-size-5xl: 3rem;      /* 48px */
+
+            /* Line Heights */
+            --line-height-tight: 1.2;
+            --line-height-snug: 1.25;
+            --line-height-normal: 1.3;
+            --line-height-relaxed: 1.5;
+            --line-height-loose: 1.75;
+
+            /* Border Radius */
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.18);
+            --shadow-2xl: 0 24px 48px rgba(0, 0, 0, 0.22);
+
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+            background-attachment: fixed;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+        }
+
+        /* Glassmorphism styles - Enhanced 2025 */
+        .glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .glass-dark {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--shadow-md);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.90);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-lg);
+        }
+
+        .card-hover {
+            transition: all var(--transition-base);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .chat-message {
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            margin: 0 2px;
+            background-color: #9ca3af;
+            border-radius: 50%;
+            display: inline-block;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .pdf-highlight {
+            background-color: rgba(255, 235, 59, 0.3);
+            cursor: pointer;
+        }
+
+        .video-timestamp {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .video-timestamp:hover {
+            background-color: rgba(102, 126, 234, 0.1);
+            transform: translateX(4px);
+        }
+
+        .heat-map-cell {
+            transition: all 0.2s;
+        }
+
+        .heat-map-cell:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .sidebar-nav {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .content-area {
+            min-height: 100vh;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .trend-up {
+            color: #10b981;
+        }
+
+        .trend-down {
+            color: #ef4444;
+        }
+
+        .sentiment-positive {
+            color: #10b981;
+        }
+
+        .sentiment-neutral {
+            color: #6b7280;
+        }
+
+        .sentiment-negative {
+            color: #ef4444;
+        }
+
+        /* Floating Navigation */
+        .floating-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(102, 126, 234, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot:hover, .nav-dot.active {
+            background: rgba(102, 126, 234, 1);
+            transform: scale(1.5);
+        }
+
+        .section-wrapper {
+            scroll-margin-top: 80px;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: linear-gradient(135deg, var(--primary-blue-dark) 0%, var(--primary-blue) 100%);
+        }
+
+        /* News Cards - Enhanced */
+        .news-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--transition-base);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+        }
+
+        .news-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .news-card-tag {
+            position: absolute;
+            top: var(--space-2);
+            left: var(--space-2);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .news-card-tag.beslutning {
+            background: var(--secondary-green);
+            color: white;
+        }
+
+        .news-card-tag.dagsorden {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .news-card-tag.nyhed {
+            background: var(--accent-orange);
+            color: white;
+        }
+
+        /* Insight Card Styles - Enhanced */
+        .insight-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-md);
+            padding: var(--space-3);
+        }
+
+        .insight-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .topic-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            margin: var(--space-1);
+            letter-spacing: 0.025em;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .topic-hot {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .topic-trending {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .topic-moderate {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+
+        /* Modern Button System - 2025 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            line-height: 1;
+            transition: all var(--transition-base);
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+            color: white;
+            box-shadow: var(--shadow-md), 0 0 0 0 rgba(0, 85, 164, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-xl), 0 0 20px 0 rgba(0, 85, 164, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--secondary-green) 0%, var(--secondary-green-hover) 100%);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-xl), 0 0 20px 0 rgba(107, 165, 57, 0.3);
+        }
+
+        .btn-lg {
+            padding: var(--space-3) var(--space-6);
+            font-size: var(--font-size-lg);
+        }
+
+        .btn-sm {
+            padding: var(--space-1) var(--space-3);
+            font-size: var(--font-size-sm);
+        }
+
+        .btn-link {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .btn-link:hover {
+            transform: translateX(4px);
+            opacity: 0.8;
+        }
+
+        .doc-list-item {
+            width: 100%;
+            text-align: left;
+            padding: var(--space-2);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-base);
+            border: 1px solid var(--border-color);
+            background: white;
+            cursor: pointer;
+        }
+
+        .doc-list-item:hover {
+            background: #F9FAFB;
+            transform: translateX(4px);
+        }
+
+        .icon-btn {
+            padding: var(--space-1);
+            color: var(--text-medium);
+            border-radius: var(--radius-md);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .icon-btn:hover {
+            color: var(--text-dark);
+            background: #F3F4F6;
+        }
+
+        /* Badge System - Enhanced */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .badge-success {
+            background: rgba(107, 165, 57, 0.1);
+            color: var(--secondary-green-hover);
+            border: 1px solid rgba(107, 165, 57, 0.2);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .badge-info {
+            background: rgba(0, 85, 164, 0.1);
+            color: var(--primary-blue-dark);
+            border: 1px solid rgba(0, 85, 164, 0.2);
+        }
+
+        /* Typography Enhancements */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        h1 {
+            font-size: var(--font-size-5xl);
+            line-height: var(--line-height-tight);
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: var(--font-size-4xl);
+            line-height: var(--line-height-snug);
+            letter-spacing: -0.01em;
+        }
+
+        h3 {
+            font-size: var(--font-size-2xl);
+            line-height: var(--line-height-normal);
+        }
+
+        p {
+            font-size: var(--font-size-base);
+            line-height: var(--line-height-relaxed);
+            color: var(--text-medium);
+        }
+
+        /* Section Spacing */
+        section {
+            padding-top: var(--space-8);
+            padding-bottom: var(--space-8);
+        }
+
+        .section-wrapper {
+            scroll-margin-top: 80px;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-green-50 to-blue-100">
+    <!-- Skip to main content link for screen readers -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:text-indigo-600 focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg">
+        Spring til hovedindhold
+    </a>
+
+    <!-- Top Navigation -->
+    <nav class="top-nav text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-3">
+                    <div>
+                        <h1 class="text-2xl font-bold">Nærdemokrati</h1>
+                        <p class="text-sm text-white/80">Kalundborg Kommune</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-6">
+                    <!-- Role Switcher -->
+                    <div class="flex glass-dark rounded-lg p-1" role="tablist" aria-label="Visningsvalg">
+                        <button onclick="switchView('borger')" id="borgerBtn" class="px-4 py-2 rounded-md text-sm font-medium glass-dark text-white shadow-sm" role="tab" aria-selected="true" aria-controls="borgerView">
+                            👤 Borger
+                        </button>
+                        <button onclick="switchView('politiker')" id="politikerBtn" class="px-4 py-2 rounded-md text-sm font-medium text-white/70 hover:text-white" role="tab" aria-selected="false" aria-controls="politikerView">
+                            🏛️ Politiker
+                        </button>
+                    </div>
+
+                    <!-- User -->
+                    <div class="flex items-center space-x-3">
+                        <img class="h-10 w-10 rounded-full border-2 border-white/40" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Crect width='40' height='40' fill='%23ffffff'/%3E%3Ctext x='50%25' y='50%25' font-size='18' fill='%230055A4' text-anchor='middle' dy='.3em'%3EJN%3C/text%3E%3C/svg%3E" alt="User">
+                        <div class="hidden md:block">
+                            <p class="text-sm font-medium">Jens Nielsen</p>
+                            <p class="text-xs text-white/70">jens@email.dk</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Floating Navigation Dots -->
+    <div id="floatingNav" class="floating-nav hidden md:flex flex-col space-y-4">
+        <div class="nav-dot active" data-section="chatSection" title="AI Chat"></div>
+        <div class="nav-dot" data-section="pdfSection" title="Dokumenter"></div>
+        <div class="nav-dot" data-section="videoSection" title="Video"></div>
+        <div class="nav-dot" data-section="dagsordenSection" title="Dagsorden"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content" tabindex="-1">
+    <div id="app">
+        <!-- BORGER VIEW -->
+        <div id="borgerView" class="view-container" role="tabpanel" aria-labelledby="borgerBtn">
+            <!-- Landing Section -->
+            <section class="gradient-bg text-white py-20 relative overflow-hidden" style="background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 50%, var(--secondary-green) 100%);">
+                <!-- Decorative elements -->
+                <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                    <div class="absolute top-10 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+                    <div class="absolute bottom-10 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
+                </div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center">
+                        <h1 style="font-size: var(--font-size-5xl); line-height: var(--line-height-tight); margin-bottom: var(--space-3);">Velkommen til dit Nærdemokrati</h1>
+                        <p style="font-size: var(--font-size-xl); line-height: var(--line-height-relaxed); margin-bottom: var(--space-4); color: rgba(255,255,255,0.9);">Få svar på dine spørgsmål om kommunalpolitik med AI-drevet indsigt</p>
+                        <div class="flex justify-center gap-4" style="gap: var(--space-2);">
+                            <button onclick="scrollToSection('chatSection')" class="btn btn-secondary btn-lg">
+                                Stil et spørgsmål
+                            </button>
+                            <button onclick="scrollToSection('dagsordenSection')" class="btn btn-primary btn-lg">
+                                Se dagsordener
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 relative z-10" style="gap: var(--space-3); margin-top: var(--space-8);">
+                        <div class="glass-dark text-center card-hover" style="padding: var(--space-4); border-radius: var(--radius-lg);">
+                            <div style="font-size: var(--font-size-5xl); font-weight: 700;">2,847</div>
+                            <div style="font-size: var(--font-size-sm); margin-top: var(--space-1); color: rgba(255,255,255,0.85);">Dokumenter tilgængelige</div>
+                        </div>
+                        <div class="glass-dark text-center card-hover" style="padding: var(--space-4); border-radius: var(--radius-lg);">
+                            <div style="font-size: var(--font-size-5xl); font-weight: 700;">15,392</div>
+                            <div style="font-size: var(--font-size-sm); margin-top: var(--space-1); color: rgba(255,255,255,0.85);">Spørgsmål besvaret</div>
+                        </div>
+                        <div class="glass-dark text-center card-hover" style="padding: var(--space-4); border-radius: var(--radius-lg);">
+                            <div style="font-size: var(--font-size-5xl); font-weight: 700;">98%</div>
+                            <div style="font-size: var(--font-size-sm); margin-top: var(--space-1); color: rgba(255,255,255,0.85);">Tilfredshed</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Chat Section -->
+            <section id="chatSection" class="section-wrapper" style="padding: var(--space-8) 0; background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.5) 100%);">
+                <div class="max-w-4xl mx-auto" style="padding: 0 var(--space-2);">
+                    <div class="text-center" style="margin-bottom: var(--space-6);">
+                        <h2 style="font-size: var(--font-size-4xl); line-height: var(--line-height-tight); font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-2);">AI Demokrati-assistent</h2>
+                        <p style="font-size: var(--font-size-lg); color: var(--text-medium); line-height: var(--line-height-relaxed);">Stil spørgsmål om kommunale beslutninger, dagsordener og politiske emner</p>
+                    </div>
+
+                    <!-- Chat Interface -->
+                    <div class="glass-card" style="border-radius: var(--radius-xl); overflow: hidden;">
+                        <!-- Chat Messages -->
+                        <div id="chatMessages" class="h-96 overflow-y-auto" style="padding: var(--space-3); display: flex; flex-direction: column; gap: var(--space-2);">
+                            <!-- Welcome Message -->
+                            <div class="flex items-start chat-message" style="gap: var(--space-2);">
+                                <div class="flex-shrink-0">
+                                    <div style="height: 32px; width: 32px; border-radius: 50%; background: var(--primary-blue); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--font-size-sm); font-weight: 600;">
+                                        AI
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <div style="background: white; border-radius: var(--radius-md); padding: var(--space-2); box-shadow: var(--shadow-sm);">
+                                        <p style="color: var(--text-dark); font-size: var(--font-size-base); line-height: var(--line-height-relaxed);">Hej! Jeg er din demokrati-assistent. Jeg kan hjælpe dig med at forstå kommunale beslutninger, finde relevante dokumenter og besvare spørgsmål om lokalpolitik. Hvad vil du gerne vide?</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Example Questions -->
+                            <div class="flex flex-wrap justify-center" style="gap: var(--space-1); margin-top: var(--space-2);">
+                                <button onclick="askQuestion('Hvad blev besluttet om klimaplan 2030?')" class="btn btn-outline btn-sm">
+                                    💡 Klimaplan 2030?
+                                </button>
+                                <button onclick="askQuestion('Hvornår er næste byrådsmøde?')" class="btn btn-outline btn-sm">
+                                    📅 Næste møde?
+                                </button>
+                                <button onclick="askQuestion('Hvad er budgettet til skoler i år?')" class="btn btn-outline btn-sm">
+                                    🏫 Skolebudget?
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div style="border-top: 1px solid var(--border-color); padding: var(--space-2); background: white;">
+                            <div class="flex" style="gap: var(--space-2);">
+                                <input
+                                    type="text"
+                                    id="chatInput"
+                                    placeholder="Stil et spørgsmål..."
+                                    style="flex: 1; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: var(--space-1) var(--space-2); font-size: var(--font-size-base);"
+                                    class="chat-input"
+                                    onkeypress="if(event.key === 'Enter') sendMessage()"
+                                >
+                                <button onclick="sendMessage()" class="btn btn-primary">
+                                    Send
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- News/Updates Section -->
+            <section id="newsSection" class="section-wrapper" style="padding: var(--space-8) 0; background: rgba(255,255,255,0.4);">
+                <div class="max-w-7xl mx-auto" style="padding: 0 var(--space-2);">
+                    <div class="text-center" style="margin-bottom: var(--space-6);">
+                        <h2 style="font-size: var(--font-size-4xl); line-height: var(--line-height-tight); font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-2);">Seneste Nyt & Beslutninger</h2>
+                        <p style="font-size: var(--font-size-lg); color: var(--text-medium); line-height: var(--line-height-relaxed);">Hold dig opdateret med de seneste dagsordener, beslutninger og nyheder fra Kalundborg Kommune</p>
+                    </div>
+
+                    <!-- News Cards Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style="gap: var(--space-4);">
+                        <!-- Card 1: Beslutning -->
+                        <div class="news-card relative">
+                            <span class="news-card-tag beslutning">Beslutning</span>
+                            <div style="padding: var(--space-3); padding-top: var(--space-8);">
+                                <div class="flex items-center" style="gap: var(--space-1); font-size: var(--font-size-sm); color: var(--text-medium); margin-bottom: var(--space-2);">
+                                    <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    15. december 2024
+                                </div>
+                                <h3 style="font-size: var(--font-size-xl); line-height: var(--line-height-tight); font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-2);">Klimaplan 2030 godkendt</h3>
+                                <p style="font-size: var(--font-size-base); color: var(--text-medium); line-height: var(--line-height-relaxed); margin-bottom: var(--space-2);">Byrådet har godkendt den ambitiøse klimaplan med mål om CO2-neutralitet i 2030. Planen indeholder investeringer på 2,4 milliarder kr.</p>
+                                <div class="flex items-center justify-between">
+                                    <span style="font-size: var(--font-size-sm); font-weight: 600; color: var(--secondary-green);">Byråd</span>
+                                    <button class="btn-link" style="font-size: var(--font-size-sm); font-weight: 600; color: var(--primary-blue);">Læs mere →</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Dagsorden -->
+                        <div class="news-card relative">
+                            <span class="news-card-tag dagsorden">Dagsorden</span>
+                            <div style="padding: var(--space-3); padding-top: var(--space-8);">
+                                <div class="flex items-center" style="gap: var(--space-1); font-size: var(--font-size-sm); color: var(--text-medium); margin-bottom: var(--space-2);">
+                                    <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    20. december 2024
+                                </div>
+                                <h3 style="font-size: var(--font-size-xl); line-height: var(--line-height-tight); font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-2);">Byrådsmøde: Budget 2025</h3>
+                                <p style="font-size: var(--font-size-base); color: var(--text-medium); line-height: var(--line-height-relaxed); margin-bottom: var(--space-2);">Kommende byrådsmøde behandler budgetforslag for 2025 med særligt fokus på folkeskoler og grøn omstilling.</p>
+                                <div class="flex items-center justify-between">
+                                    <span style="font-size: var(--font-size-sm); font-weight: 600; color: var(--primary-blue);">Økonomiudvalg</span>
+                                    <button class="btn-link" style="font-size: var(--font-size-sm); font-weight: 600; color: var(--primary-blue);">Se dagsorden →</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Nyhed -->
+                        <div class="news-card relative">
+                            <span class="news-card-tag nyhed">Nyhed</span>
+                            <div style="padding: var(--space-3); padding-top: var(--space-8);">
+                                <div class="flex items-center" style="gap: var(--space-1); font-size: var(--font-size-sm); color: var(--text-medium); margin-bottom: var(--space-2);">
+                                    <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    12. december 2024
+                                </div>
+                                <h3 style="font-size: var(--font-size-xl); line-height: var(--line-height-tight); font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-2);">Ny cykelsti langs Ringvejen</h3>
+                                <p style="font-size: var(--font-size-base); color: var(--text-medium); line-height: var(--line-height-relaxed); margin-bottom: var(--space-2);">Kommunen investerer 15 mio. kr. i ny cykelinfrastruktur for at gøre det mere sikkert og attraktivt at cykle i Kalundborg.</p>
+                                <div class="flex items-center justify-between">
+                                    <span style="font-size: var(--font-size-sm); font-weight: 600; color: var(--accent-orange);">Teknik & Miljø</span>
+                                    <button class="btn-link" style="font-size: var(--font-size-sm); font-weight: 600; color: var(--primary-blue);">Læs mere →</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Beslutning -->
+                        <div class="news-card relative">
+                            <span class="news-card-tag beslutning">Beslutning</span>
+                            <div style="padding: var(--space-3); padding-top: var(--space-8);">
+                                <div class="flex items-center" style="gap: var(--space-1); font-size: var(--font-size-sm); color: var(--text-medium); margin-bottom: var(--space-2);">
+                                    <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    8. december 2024
+                                </div>
+                                <h3 style="font-size: var(--font-size-xl); line-height: var(--line-height-tight); font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-2);">Modernisering af skoler</h3>
+                                <p style="font-size: var(--font-size-base); color: var(--text-medium); line-height: var(--line-height-relaxed); margin-bottom: var(--space-2);">342 mio. kr. afsat til folkeskoler i 2025 - en stigning på 4,2% til flere lærere og nyt IT-udstyr.</p>
+                                <div class="flex items-center justify-between">
+                                    <span style="font-size: var(--font-size-sm); font-weight: 600; color: var(--secondary-green);">Børn & Unge</span>
+                                    <button class="btn-link" style="font-size: var(--font-size-sm); font-weight: 600; color: var(--primary-blue);">Læs mere →</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 5: Dagsorden -->
+                        <div class="news-card relative">
+                            <span class="news-card-tag dagsorden">Dagsorden</span>
+                            <div style="padding: var(--space-3); padding-top: var(--space-8);">
+                                <div class="flex items-center" style="gap: var(--space-1); font-size: var(--font-size-sm); color: var(--text-medium); margin-bottom: var(--space-2);">
+                                    <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    8. januar 2025
+                                </div>
+                                <h3 style="font-size: var(--font-size-xl); line-height: var(--line-height-tight); font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-2);">Byplan Østhavn til behandling</h3>
+                                <p style="font-size: var(--font-size-base); color: var(--text-medium); line-height: var(--line-height-relaxed); margin-bottom: var(--space-2);">Forslag til nyt boligområde med 450 boliger og 30% grønne områder kommer til behandling i Plan og Byg.</p>
+                                <div class="flex items-center justify-between">
+                                    <span style="font-size: var(--font-size-sm); font-weight: 600; color: var(--primary-blue);">Plan og Byg</span>
+                                    <button class="btn-link" style="font-size: var(--font-size-sm); font-weight: 600; color: var(--primary-blue);">Se dagsorden →</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 6: Nyhed -->
+                        <div class="news-card relative">
+                            <span class="news-card-tag nyhed">Nyhed</span>
+                            <div style="padding: var(--space-3); padding-top: var(--space-8);">
+                                <div class="flex items-center" style="gap: var(--space-1); font-size: var(--font-size-sm); color: var(--text-medium); margin-bottom: var(--space-2);">
+                                    <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                    5. december 2024
+                                </div>
+                                <h3 style="font-size: var(--font-size-xl); line-height: var(--line-height-tight); font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-2);">Borgerinddragelse om havneudvikling</h3>
+                                <p style="font-size: var(--font-size-base); color: var(--text-medium); line-height: var(--line-height-relaxed); margin-bottom: var(--space-2);">Kom til åbent møde den 15. januar om fremtidens havneområde. Din mening tæller i udviklingen af Kalundborg Havn.</p>
+                                <div class="flex items-center justify-between">
+                                    <span style="font-size: var(--font-size-sm); font-weight: 600; color: var(--accent-orange);">Borgerinddragelse</span>
+                                    <button class="btn-link" style="font-size: var(--font-size-sm); font-weight: 600; color: var(--primary-blue);">Tilmeld →</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- View All Button -->
+                    <div class="text-center" style="margin-top: var(--space-6);">
+                        <button class="btn btn-secondary btn-lg">
+                            Se alle nyheder og beslutninger →
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- PDF Viewer Section -->
+            <section id="pdfSection" class="section-wrapper" style="padding: var(--space-8) 0; background: rgba(255,255,255,0.3);">
+                <div class="max-w-7xl mx-auto" style="padding: 0 var(--space-2);">
+                    <div class="text-center" style="margin-bottom: var(--space-6);">
+                        <h2 style="font-size: var(--font-size-4xl); line-height: var(--line-height-tight); font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-2);">Interaktiv Dokumentviewer</h2>
+                        <p style="font-size: var(--font-size-lg); color: var(--text-medium); line-height: var(--line-height-relaxed);">Gennemse dagsordener og referater med AI-drevet highlighting</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3" style="gap: var(--space-4);">
+                        <!-- Document List -->
+                        <div class="lg:col-span-1">
+                            <div class="glass-card" style="border-radius: var(--radius-lg); padding: var(--space-2);">
+                                <h3 style="font-size: var(--font-size-lg); font-weight: 600; color: var(--text-dark); margin-bottom: var(--space-2);">Seneste Dokumenter</h3>
+                                <div style="display: flex; flex-direction: column; gap: var(--space-1);">
+                                    <button onclick="loadDocument('klimaplan')" class="doc-list-item">
+                                        <div style="font-weight: 600; color: var(--text-dark);">Klimaplan 2030</div>
+                                        <div style="font-size: var(--font-size-sm); color: var(--text-medium);">15. dec 2024</div>
+                                    </button>
+                                    <button onclick="loadDocument('budget')" class="doc-list-item">
+                                        <div style="font-weight: 600; color: var(--text-dark);">Budget 2025</div>
+                                        <div style="font-size: var(--font-size-sm); color: var(--text-medium);">10. dec 2024</div>
+                                    </button>
+                                    <button onclick="loadDocument('byplan')" class="doc-list-item">
+                                        <div style="font-weight: 600; color: var(--text-dark);">Byplan Østhavn</div>
+                                        <div style="font-size: var(--font-size-sm); color: var(--text-medium);">5. dec 2024</div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PDF Viewer -->
+                        <div class="lg:col-span-2">
+                            <div class="glass-card" style="border-radius: var(--radius-lg); padding: var(--space-3);">
+                                <div class="flex justify-between items-center" style="margin-bottom: var(--space-2);">
+                                    <h3 style="font-size: var(--font-size-lg); font-weight: 600; color: var(--text-dark);" id="docTitle">Vælg et dokument</h3>
+                                    <div class="flex" style="gap: var(--space-1);">
+                                        <button class="icon-btn">
+                                            <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                            </svg>
+                                        </button>
+                                        <button class="icon-btn">
+                                            <svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="pdfContent" class="prose max-w-none" style="background: #F9FAFB; border-radius: var(--radius-md); padding: var(--space-3); min-height: 384px;">
+                                    <p style="color: var(--text-medium); text-align: center; padding: var(--space-10) 0;">Vælg et dokument fra listen til venstre</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Video Platform Section -->
+            <section id="videoSection" class="py-16 section-wrapper" style="background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.5) 100%);">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Byrådsmøder på Video</h2>
+                        <p class="text-gray-600">Se optagelser med præcise timestamps til relevante emner</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Video Player -->
+                        <div class="lg:col-span-2">
+                            <div class="bg-gray-900 rounded-xl overflow-hidden shadow-2xl">
+                                <div class="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                                    <div class="text-center text-white">
+                                        <svg class="w-24 h-24 mx-auto mb-4 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                        <p class="text-lg">Byrådsmøde - 12. december 2024</p>
+                                        <p class="text-sm text-gray-400 mt-2">Klik på et emne for at starte afspilning</p>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-800 p-4">
+                                    <div class="flex items-center justify-between text-white">
+                                        <button class="p-2 hover:bg-gray-700 rounded">
+                                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                        </button>
+                                        <div class="flex-1 mx-4">
+                                            <div class="bg-gray-700 rounded-full h-2">
+                                                <div class="bg-indigo-600 h-2 rounded-full" style="width: 23%"></div>
+                                            </div>
+                                        </div>
+                                        <span class="text-sm">00:15:30 / 01:07:22</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Video Info -->
+                            <div class="mt-4 glass-card rounded-xl shadow-lg p-6">
+                                <h3 class="font-semibold text-gray-900 mb-2">Byrådsmøde - December 2024</h3>
+                                <p class="text-gray-600 text-sm">Dagsorden inkluderer klimaplan 2030, budget 2025 og byplan for Østhavn</p>
+                                <div class="flex items-center space-x-4 mt-4">
+                                    <span class="badge badge-info">Live</span>
+                                    <span class="text-sm text-gray-500">1,247 visninger</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timestamps -->
+                        <div class="lg:col-span-1">
+                            <div class="glass-card rounded-xl shadow-lg p-4">
+                                <h3 class="font-semibold text-gray-900 mb-4">Emner med Timestamps</h3>
+                                <div class="space-y-2 max-h-96 overflow-y-auto">
+                                    <div onclick="seekVideo('00:02:15')" class="video-timestamp p-3 rounded-lg border border-gray-200">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <div class="font-medium text-gray-900 text-sm">Åbning og velkomst</div>
+                                                <div class="text-xs text-gray-500 mt-1">Borgmester Steen Nielsen</div>
+                                            </div>
+                                            <span class="text-xs text-indigo-600 font-medium">00:02:15</span>
+                                        </div>
+                                    </div>
+                                    <div onclick="seekVideo('00:15:30')" class="video-timestamp p-3 rounded-lg border border-gray-200 bg-indigo-50">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <div class="font-medium text-gray-900 text-sm">Klimaplan 2030 - Diskussion</div>
+                                                <div class="text-xs text-gray-500 mt-1">Teknik- og Miljøudvalget</div>
+                                            </div>
+                                            <span class="text-xs text-indigo-600 font-medium">00:15:30</span>
+                                        </div>
+                                    </div>
+                                    <div onclick="seekVideo('00:42:10')" class="video-timestamp p-3 rounded-lg border border-gray-200">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <div class="font-medium text-gray-900 text-sm">Budget 2025 - Behandling</div>
+                                                <div class="text-xs text-gray-500 mt-1">Økonomiudvalget</div>
+                                            </div>
+                                            <span class="text-xs text-indigo-600 font-medium">00:42:10</span>
+                                        </div>
+                                    </div>
+                                    <div onclick="seekVideo('01:03:45')" class="video-timestamp p-3 rounded-lg border border-gray-200">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <div class="font-medium text-gray-900 text-sm">Byplan Østhavn - Godkendelse</div>
+                                                <div class="text-xs text-gray-500 mt-1">Plan og Byg</div>
+                                            </div>
+                                            <span class="text-xs text-indigo-600 font-medium">01:03:45</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dagsorden Explorer -->
+            <section id="dagsordenSection" class="py-16 section-wrapper" style="background: rgba(255,255,255,0.4);">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Dagsorden Explorer</h2>
+                        <p class="text-gray-600">Find og gennemse kommende og tidligere dagsordener</p>
+                    </div>
+
+                    <!-- Search and Filters -->
+                    <div class="glass-card rounded-xl shadow-lg p-6 mb-8">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <input type="text" placeholder="Søg i dagsordener..." class="col-span-2 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <select class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option>Alle udvalg</option>
+                                <option>Byråd</option>
+                                <option>Økonomiudvalg</option>
+                                <option>Teknik- og Miljøudvalg</option>
+                                <option>Plan og Byg</option>
+                            </select>
+                            <select class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option>2024</option>
+                                <option>2023</option>
+                                <option>2022</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Agenda Items -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="glass-card rounded-xl shadow-lg p-6 card-hover cursor-pointer">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="badge badge-success">Godkendt</span>
+                                <span class="text-sm text-gray-500">15. dec 2024</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 mb-2">Klimaplan 2030</h3>
+                            <p class="text-sm text-gray-600 mb-4">Kommunens nye klimaplan med mål om CO2-neutralitet i 2030...</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-gray-500">Byråd</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-indigo-600 text-sm font-medium hover:text-indigo-700">Læs mere →</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-xl shadow-lg p-6 card-hover cursor-pointer">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="badge badge-warning">Til behandling</span>
+                                <span class="text-sm text-gray-500">20. dec 2024</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 mb-2">Budget 2025</h3>
+                            <p class="text-sm text-gray-600 mb-4">Forslag til kommunens budget for det kommende år...</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-gray-500">Økonomiudvalg</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-indigo-600 text-sm font-medium hover:text-indigo-700">Læs mere →</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-xl shadow-lg p-6 card-hover cursor-pointer">
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="badge badge-info">Kommende</span>
+                                <span class="text-sm text-gray-500">8. jan 2025</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 mb-2">Byplan Østhavn</h3>
+                            <p class="text-sm text-gray-600 mb-4">Udvikling af nyt boligområde ved Østhavn med blandede boliger...</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-gray-500">Plan og Byg</span>
+                                <div class="flex space-x-2">
+                                    <button class="text-indigo-600 text-sm font-medium hover:text-indigo-700">Læs mere →</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- POLITIKER VIEW -->
+        <div id="politikerView" class="view-container hidden" role="tabpanel" aria-labelledby="politikerBtn">
+            <!-- Hero Section -->
+            <section class="gradient-bg text-white py-16 relative overflow-hidden" style="background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 50%, var(--secondary-green) 100%);">
+                <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                    <div class="absolute top-10 left-10 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
+                    <div class="absolute bottom-10 right-10 w-96 h-96 bg-green-500/20 rounded-full blur-3xl"></div>
+                </div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold mb-4">Politik Insights Dashboard</h1>
+                        <p class="text-xl text-white/90">AI-drevet analyse af borgerengagement og emneinteresser</p>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="glass-dark rounded-xl p-6 text-center border border-white/20">
+                            <div class="text-3xl font-bold">1,847</div>
+                            <div class="text-white/80 mt-2 text-sm">Borgerinteraktioner</div>
+                            <div class="text-green-300 text-xs mt-1">↑ 12.5%</div>
+                        </div>
+                        <div class="glass-dark rounded-xl p-6 text-center border border-white/20">
+                            <div class="text-3xl font-bold">23</div>
+                            <div class="text-white/80 mt-2 text-sm">Aktive emner</div>
+                            <div class="text-green-300 text-xs mt-1">↑ 5 nye</div>
+                        </div>
+                        <div class="glass-dark rounded-xl p-6 text-center border border-white/20">
+                            <div class="text-3xl font-bold">94%</div>
+                            <div class="text-white/80 mt-2 text-sm">AI Nøjagtighed</div>
+                            <div class="text-white/60 text-xs mt-1">Høj kvalitet</div>
+                        </div>
+                        <div class="glass-dark rounded-xl p-6 text-center border border-white/20">
+                            <div class="text-3xl font-bold">3</div>
+                            <div class="text-white/80 mt-2 text-sm">Kritiske emner</div>
+                            <div class="text-orange-300 text-xs mt-1">⚠ Kræver handling</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+<!-- POLITICIAN VIEW - Focused on Citizen Questions -->
+
+<!-- Emneinteresse Oversigt -->
+<section class="py-16" style="background: rgba(255,255,255,0.4);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold" style="color: var(--primary-blue-dark);">Emneinteresse</h2>
+            <p class="text-gray-700 mt-2">Mest diskuterede emner baseret på borgerspørgsmål - seneste 7 dage</p>
+        </div>
+
+        <!-- Top 3 Topics -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <!-- Topic 1: Klimaplan -->
+            <div class="insight-card p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-gray-900">Klimaplan 2030</h3>
+                    <span class="topic-tag topic-hot">🔥 Meget Høj</span>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Spørgsmål:</span>
+                        <span class="font-semibold" style="color: var(--primary-blue);">142</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Sentiment:</span>
+                        <span class="font-semibold text-green-600">76% Positiv</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Trend:</span>
+                        <span class="font-semibold text-green-600">↑ 24%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 2: Budget -->
+            <div class="insight-card p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-gray-900">Budget 2025</h3>
+                    <span class="topic-tag topic-trending">📈 Høj</span>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Spørgsmål:</span>
+                        <span class="font-semibold" style="color: var(--primary-blue);">98</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Sentiment:</span>
+                        <span class="font-semibold text-gray-600">52% Neutral</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Trend:</span>
+                        <span class="font-semibold text-green-600">↑ 18%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 3: Byplan -->
+            <div class="insight-card p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold text-gray-900">Byplan Østhavn</h3>
+                    <span class="topic-tag topic-moderate">📊 Mellem</span>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Spørgsmål:</span>
+                        <span class="font-semibold" style="color: var(--primary-blue);">76</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Sentiment:</span>
+                        <span class="font-semibold text-green-600">64% Positiv</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-gray-600">Trend:</span>
+                        <span class="font-semibold text-green-600">↑ 31%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Kræver Handling Section -->
+<section class="py-12" style="background: linear-gradient(180deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.8) 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-6">
+            <div class="flex items-center space-x-3 mb-2">
+                <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <h2 class="text-3xl font-bold text-gray-900">Kræver Handling</h2>
+            </div>
+            <p class="text-gray-700">Emner med høj borgerinteresse som mangler svar eller opfølgning</p>
+        </div>
+
+        <div class="space-y-4">
+            <!-- Priority Item 1 -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-red-500 hover:shadow-xl transition-shadow">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold uppercase">Høj Prioritet</span>
+                            <span class="text-xs text-gray-500">18 ubesvarede spørgsmål</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Parkeringsforhold ved Fjordvejsskolen</h3>
+                        <p class="text-sm text-gray-600 mb-3">Borgere efterlyser løsning på trafikkaos ved morgenafleveringer. Seneste spørgsmål for 3 timer siden.</p>
+                        <div class="flex items-center space-x-4 text-sm">
+                            <div class="flex items-center space-x-1">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                                </svg>
+                                <span class="text-gray-600">18 spørgsmål</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                </svg>
+                                <span class="text-gray-600">Høj engagement (↑45%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between pt-3 border-t border-gray-200">
+                    <span class="text-xs text-gray-500">Sidst behandlet: Aldrig</span>
+                    <button class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium text-sm">
+                        Tag handling →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Priority Item 2 -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-orange-500 hover:shadow-xl transition-shadow">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-bold uppercase">Mellem Prioritet</span>
+                            <span class="text-xs text-gray-500">12 ubesvarede spørgsmål</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Tidsplan for el-busser uklart</h3>
+                        <p class="text-sm text-gray-600 mb-3">Mange borgere efterspørger konkret tidsplan for udrulning af el-busser nævnt i Klimaplan 2030.</p>
+                        <div class="flex items-center space-x-4 text-sm">
+                            <div class="flex items-center space-x-1">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                                </svg>
+                                <span class="text-gray-600">12 spørgsmål</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                </svg>
+                                <span class="text-gray-600">Moderat engagement (↑28%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between pt-3 border-t border-gray-200">
+                    <span class="text-xs text-gray-500">Sidst behandlet: 14 dage siden</span>
+                    <button class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors font-medium text-sm">
+                        Gennemgå →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Priority Item 3 -->
+            <div class="glass-card rounded-xl p-6 border-l-4 border-yellow-500 hover:shadow-xl transition-shadow">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold uppercase">Lav Prioritet</span>
+                            <span class="text-xs text-gray-500">8 ubesvarede spørgsmål</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Åbningstider på Bibliotek Bjergsted</h3>
+                        <p class="text-sm text-gray-600 mb-3">Borgere efterspørger udvidede åbningstider på lokalbiblioteket, især i weekender.</p>
+                        <div class="flex items-center space-x-4 text-sm">
+                            <div class="flex items-center space-x-1">
+                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                                </svg>
+                                <span class="text-gray-600">8 spørgsmål</span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <span class="text-gray-600">Stabil interesse</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between pt-3 border-t border-gray-200">
+                    <span class="text-xs text-gray-500">Sidst behandlet: 3 uger siden</span>
+                    <button class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors font-medium text-sm">
+                        Se detaljer →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Seneste Borgerspørgsmål -->
+<section class="py-16" style="background: rgba(255,255,255,0.6);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-8">
+            <h2 class="text-3xl font-bold" style="color: var(--primary-blue-dark);">Seneste Borgerspørgsmål</h2>
+            <p class="text-gray-700 mt-2">Anonyme spørgsmål med AI-linkede dokumenter og beslutninger</p>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="glass-card rounded-xl shadow-lg p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Search Input -->
+                <div class="md:col-span-2">
+                    <label for="questionSearch" class="sr-only">Søg i spørgsmål</label>
+                    <div class="relative">
+                        <input
+                            type="text"
+                            id="questionSearch"
+                            placeholder="Søg i spørgsmål..."
+                            class="w-full border border-gray-300 rounded-lg px-4 py-3 pl-10 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            onkeyup="filterQuestions()"
+                            aria-label="Søg i borgerspørgsmål"
+                        >
+                        <svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Topic Filter -->
+                <div>
+                    <label for="topicFilter" class="sr-only">Filtrer efter emne</label>
+                    <select
+                        id="topicFilter"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        onchange="filterQuestions()"
+                        aria-label="Filtrer spørgsmål efter emne"
+                    >
+                        <option value="">Alle Emner</option>
+                        <option value="Klimaplan 2030">Klimaplan 2030</option>
+                        <option value="Budget 2025">Budget 2025</option>
+                        <option value="Byplan Østhavn">Byplan Østhavn</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Results Counter -->
+            <div class="mt-4 text-sm text-gray-600" role="status" aria-live="polite">
+                <span id="questionCount">Viser 5 spørgsmål</span>
+            </div>
+        </div>
+
+        <!-- Questions List -->
+        <div id="questionsList" class="space-y-6">
+            <!-- Question 1 -->
+            <div class="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full" style="background-color: var(--secondary-green); color: white;">Klimaplan 2030</span>
+                            <span class="text-xs text-gray-500">2 timer siden</span>
+                            <span class="text-xs text-green-600">✓ Besvaret af AI</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Hvordan påvirker klimaplanen min varmeregning?</h3>
+                        <p class="text-sm text-gray-600 mb-4">Anonym borger spurgte om de økonomiske konsekvenser af klimaplan 2030 for private husstande.</p>
+                    </div>
+                </div>
+
+                <!-- AI-Linked Documents -->
+                <div class="border-t border-gray-200 pt-4">
+                    <h4 class="text-sm font-semibold text-gray-700 mb-3">📄 Relaterede Dokumenter & Beslutninger:</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer" onclick="openDocumentModal('Klimaplan 2030 - Byrådsbeslutning', 'PDF Dokument', 'Side 12-18', '15. dec 2024', 95, '#')">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Klimaplan 2030 - Byrådsbeslutning</p>
+                                    <p class="text-xs text-gray-500">Side 12-18 • 15. dec 2024 • 95% relevans</p>
+                                </div>
+                            </div>
+                            <button class="text-sm font-medium" style="color: var(--primary-blue);">Åbn →</button>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer" onclick="openDocumentModal('Økonomisk Konsekvensanalyse - Bilag', 'PDF Dokument', 'Side 3-7', '15. dec 2024', 87, '#')">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Økonomisk Konsekvensanalyse - Bilag</p>
+                                    <p class="text-xs text-gray-500">Side 3-7 • 15. dec 2024 • 87% relevans</p>
+                                </div>
+                            </div>
+                            <button class="text-sm font-medium" style="color: var(--primary-blue);">Åbn →</button>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors cursor-pointer" onclick="openDocumentModal('Byrådsmøde Video - Klimaplan Diskussion', 'Video', '00:15:30', '12. dec 2024', 72, '#')">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Byrådsmøde Video - Klimaplan Diskussion</p>
+                                    <p class="text-xs text-gray-500">00:15:30 • 12. dec 2024 • 72% relevans</p>
+                                </div>
+                            </div>
+                            <button class="text-sm font-medium" style="color: var(--secondary-green);">Se →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full" style="background-color: var(--primary-blue); color: white;">Budget 2025</span>
+                            <span class="text-xs text-gray-500">5 timer siden</span>
+                            <span class="text-xs text-green-600">✓ Besvaret af AI</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Hvorfor får skolerne mere end bibliotekerne i det nye budget?</h3>
+                        <p class="text-sm text-gray-600 mb-4">Anonym borger spurgte om prioriteringerne i budget 2025 mellem uddannelse og kultur.</p>
+                    </div>
+                </div>
+
+                <!-- AI-Linked Documents -->
+                <div class="border-t border-gray-200 pt-4">
+                    <h4 class="text-sm font-semibold text-gray-700 mb-3">📄 Relaterede Dokumenter & Beslutninger:</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer" onclick="openDocumentModal('Budget 2025 - Forslag', 'PDF Dokument', 'Side 45-52', '10. dec 2024', 92, '#')">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Budget 2025 - Forslag</p>
+                                    <p class="text-xs text-gray-500">Side 45-52 • 10. dec 2024 • 92% relevans</p>
+                                </div>
+                            </div>
+                            <button class="text-sm font-medium" style="color: var(--primary-blue);">Åbn →</button>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer" onclick="openDocumentModal('Børn og Unge - Budgetnotat', 'PDF Dokument', 'Side 8-12', '10. dec 2024', 88, '#')">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Børn og Unge - Budgetnotat</p>
+                                    <p class="text-xs text-gray-500">Side 8-12 • 10. dec 2024 • 88% relevans</p>
+                                </div>
+                            </div>
+                            <button class="text-sm font-medium" style="color: var(--primary-blue);">Åbn →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full" style="background-color: var(--accent-orange); color: white;">Byplan Østhavn</span>
+                            <span class="text-xs text-gray-500">1 dag siden</span>
+                            <span class="text-xs text-green-600">✓ Besvaret af AI</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Bliver der lavet grønne områder i det nye boligområde?</h3>
+                        <p class="text-sm text-gray-600 mb-4">Anonym borger spurgte om byplanen for Østhavn inkluderer parker og legepladser.</p>
+                    </div>
+                </div>
+
+                <!-- AI-Linked Documents -->
+                <div class="border-t border-gray-200 pt-4">
+                    <h4 class="text-sm font-semibold text-gray-700 mb-3">📄 Relaterede Dokumenter & Beslutninger:</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer" onclick="openDocumentModal('Byplan Østhavn - Lokalplan 2024-08', 'PDF Dokument', 'Side 15-22', '5. dec 2024', 94, '#')">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Byplan Østhavn - Lokalplan 2024-08</p>
+                                    <p class="text-xs text-gray-500">Side 15-22 • 5. dec 2024 • 94% relevans</p>
+                                </div>
+                            </div>
+                            <button class="text-sm font-medium" style="color: var(--primary-blue);">Åbn →</button>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer" onclick="openDocumentModal('Bilag: Grønne Områder og Parkanlæg', 'PDF Dokument', 'Side 3-8', '5. dec 2024', 91, '#')">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Bilag: Grønne Områder og Parkanlæg</p>
+                                    <p class="text-xs text-gray-500">Side 3-8 • 5. dec 2024 • 91% relevans</p>
+                                </div>
+                            </div>
+                            <button class="text-sm font-medium" style="color: var(--primary-blue);">Åbn →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full" style="background-color: var(--secondary-green); color: white;">Klimaplan 2030</span>
+                            <span class="text-xs text-gray-500">1 dag siden</span>
+                            <span class="text-xs text-green-600">✓ Besvaret af AI</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Hvornår kommer de første el-busser i Kalundborg?</h3>
+                        <p class="text-sm text-gray-600 mb-4">Anonym borger spurgte om tidsplanen for udrulning af el-busser som led i klimaplanen.</p>
+                    </div>
+                </div>
+
+                <!-- AI-Linked Documents -->
+                <div class="border-t border-gray-200 pt-4">
+                    <h4 class="text-sm font-semibold text-gray-700 mb-3">📄 Relaterede Dokumenter & Beslutninger:</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer" onclick="openDocumentModal('Klimaplan 2030 - Transport Sektion', 'PDF Dokument', 'Side 24-29', '15. dec 2024', 96, '#')">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Klimaplan 2030 - Transport Sektion</p>
+                                    <p class="text-xs text-gray-500">Side 24-29 • 15. dec 2024 • 96% relevans</p>
+                                </div>
+                            </div>
+                            <button class="text-sm font-medium" style="color: var(--primary-blue);">Åbn →</button>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer" onclick="openDocumentModal('Implementeringsplan - Bæredygtig Transport', 'PDF Dokument', 'Side 5-11', '15. dec 2024', 89, '#')">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Implementeringsplan - Bæredygtig Transport</p>
+                                    <p class="text-xs text-gray-500">Side 5-11 • 15. dec 2024 • 89% relevans</p>
+                                </div>
+                            </div>
+                            <button class="text-sm font-medium" style="color: var(--primary-blue);">Åbn →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="glass-card rounded-xl p-6 hover:shadow-xl transition-shadow">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-3 mb-2">
+                            <span class="text-xs font-semibold px-3 py-1 rounded-full" style="background-color: var(--primary-blue); color: white;">Budget 2025</span>
+                            <span class="text-xs text-gray-500">2 dage siden</span>
+                            <span class="text-xs text-green-600">✓ Besvaret af AI</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Hvad betyder budgettet for vores lokalbibliotek?</h3>
+                        <p class="text-sm text-gray-600 mb-4">Anonym borger spurgte om budgetkonsekvenser for biblioteker og kulturinstitutioner.</p>
+                    </div>
+                </div>
+
+                <!-- AI-Linked Documents -->
+                <div class="border-t border-gray-200 pt-4">
+                    <h4 class="text-sm font-semibold text-gray-700 mb-3">📄 Relaterede Dokumenter & Beslutninger:</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer" onclick="openDocumentModal('Budget 2025 - Kultur og Fritid', 'PDF Dokument', 'Side 78-84', '10. dec 2024', 93, '#')">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Budget 2025 - Kultur og Fritid</p>
+                                    <p class="text-xs text-gray-500">Side 78-84 • 10. dec 2024 • 93% relevans</p>
+                                </div>
+                            </div>
+                            <button class="text-sm font-medium" style="color: var(--primary-blue);">Åbn →</button>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer" onclick="openDocumentModal('Biblioteksplan 2025-2028', 'PDF Dokument', 'Side 12-18', '5. dec 2024', 87, '#')">
+                            <div class="flex items-center space-x-3">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">Biblioteksplan 2025-2028</p>
+                                    <p class="text-xs text-gray-500">Side 12-18 • 5. dec 2024 • 87% relevans</p>
+                                </div>
+                            </div>
+                            <button class="text-sm font-medium" style="color: var(--primary-blue);">Åbn →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More -->
+        <div class="text-center mt-12">
+            <button class="glass-card px-8 py-4 rounded-xl font-semibold hover:scale-105 transition-transform" style="color: var(--primary-blue);">
+                Vis flere spørgsmål (47 mere)
+            </button>
+        </div>
+    </div>
+</section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Nærdemokrati</h3>
+                    <p class="text-gray-400 text-sm">Gør demokratiet tilgængeligt for alle med AI-drevet indsigt i kommunale beslutninger.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Links</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">Om Platformen</a></li>
+                        <li><a href="#" class="hover:text-white">Hvordan det Virker</a></li>
+                        <li><a href="#" class="hover:text-white">Kontakt</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Sikkerhed</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">Privatlivspolitik</a></li>
+                        <li><a href="#" class="hover:text-white">GDPR</a></li>
+                        <li><a href="#" class="hover:text-white">Databehandling</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Teknologi</h4>
+                    <div class="flex space-x-2 mb-4">
+                        <span class="badge badge-info">RAG AI</span>
+                        <span class="badge badge-success">GDPR</span>
+                    </div>
+                    <p class="text-sm text-gray-400">Powered by First Agenda Integration</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+                <p>&copy; 2024 Kalundborg Kommune - Nærdemokrati Platform. Alle rettigheder forbeholdes.</p>
+            </div>
+        </footer>
+    </div>
+    </main>
+
+    <script>
+        // View Switching
+        function switchView(view, updateHash = true) {
+            const borgerView = document.getElementById('borgerView');
+            const politikerView = document.getElementById('politikerView');
+            const borgerBtn = document.getElementById('borgerBtn');
+            const politikerBtn = document.getElementById('politikerBtn');
+
+            if (view === 'borger') {
+                borgerView.classList.remove('hidden');
+                politikerView.classList.add('hidden');
+                borgerBtn.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
+                borgerBtn.classList.remove('text-gray-700');
+                politikerBtn.classList.remove('bg-white', 'text-gray-900', 'shadow-sm');
+                politikerBtn.classList.add('text-gray-700');
+
+                // Update ARIA attributes for accessibility
+                borgerBtn.setAttribute('aria-selected', 'true');
+                politikerBtn.setAttribute('aria-selected', 'false');
+            } else {
+                borgerView.classList.add('hidden');
+                politikerView.classList.remove('hidden');
+                politikerBtn.classList.add('bg-white', 'text-gray-900', 'shadow-sm');
+                politikerBtn.classList.remove('text-gray-700');
+                borgerBtn.classList.remove('bg-white', 'text-gray-900', 'shadow-sm');
+                borgerBtn.classList.add('text-gray-700');
+
+                // Update ARIA attributes for accessibility
+                borgerBtn.setAttribute('aria-selected', 'false');
+                politikerBtn.setAttribute('aria-selected', 'true');
+            }
+
+            // Update URL hash if requested (prevent infinite loop from hashchange event)
+            if (updateHash) {
+                window.location.hash = view;
+            }
+        }
+
+        // Scroll to Section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Chat Functionality
+        const chatResponses = {
+            'Hvad blev besluttet om klimaplan 2030?': {
+                answer: 'Byrået godkendte Klimaplan 2030 den 15. december 2024. Planen indeholder mål om at gøre kommunen CO2-neutral senest i 2030 gennem investeringer i grøn energi, bæredygtig transport og energieffektivisering af offentlige bygninger.',
+                sources: [
+                    { title: 'Klimaplan 2030 - Byrådsbeslutning', date: '15. dec 2024', page: 'Side 12-18' },
+                    { title: 'Bilag: Økonomisk konsekvensanalyse', date: '15. dec 2024', page: 'Side 3-7' }
+                ]
+            },
+            'Hvornår er næste byrådsmøde?': {
+                answer: 'Næste ordinære byrådsmøde afholdes den 20. december 2024 kl. 17:00 i Byrådssalen. Dagsordenen inkluderer behandling af Budget 2025, opfølgning på Klimaplan 2030, og orientering om Byplan Østhavn.',
+                sources: [
+                    { title: 'Mødeoversigt December 2024', date: '1. dec 2024', page: 'Kalender' }
+                ]
+            },
+            'Hvad er budgettet til skoler i år?': {
+                answer: 'Budget 2025 afsætter 342 millioner kroner til folkeskolerne i Kalundborg Kommune. Dette er en stigning på 4,2% i forhold til 2024, primært til nye lærer-stillinger og modernisering af it-udstyr.',
+                sources: [
+                    { title: 'Budget 2025 - Forslag', date: '10. dec 2024', page: 'Side 45-52' },
+                    { title: 'Børn og Unge - Budgetnotat', date: '10. dec 2024', page: 'Side 8-12' }
+                ]
+            }
+        };
+
+        function askQuestion(question) {
+            document.getElementById('chatInput').value = question;
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'flex items-start space-x-3 justify-end chat-message';
+            userMsg.innerHTML = `
+                <div class="flex-1 text-right">
+                    <div class="bg-indigo-600 text-white rounded-lg p-4 shadow-sm inline-block max-w-lg">
+                        <p>${message}</p>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                    <img class="h-8 w-8 rounded-full" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Crect width='32' height='32' fill='%23667eea'/%3E%3Ctext x='50%25' y='50%25' font-size='16' fill='white' text-anchor='middle' dy='.3em'%3EJN%3C/text%3E%3C/svg%3E" alt="User">
+                </div>
+            `;
+            chatMessages.appendChild(userMsg);
+
+            // Clear input
+            input.value = '';
+
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Show typing indicator
+            const typingMsg = document.createElement('div');
+            typingMsg.className = 'flex items-start space-x-3 chat-message';
+            typingMsg.id = 'typingIndicator';
+            typingMsg.innerHTML = `
+                <div class="flex-shrink-0">
+                    <div class="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-semibold">
+                        AI
+                    </div>
+                </div>
+                <div class="flex-1">
+                    <div class="bg-white rounded-lg p-4 shadow-sm">
+                        <div class="typing-indicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(typingMsg);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Simulate AI response
+            setTimeout(() => {
+                document.getElementById('typingIndicator').remove();
+
+                const response = chatResponses[message] || {
+                    answer: 'Det er et interessant spørgsmål. Baseret på de seneste dokumenter kan jeg hjælpe dig med at finde relevante informationer. Kan du præcisere hvad du specifikt vil vide?',
+                    sources: []
+                };
+
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'flex items-start space-x-3 chat-message';
+
+                let sourcesHtml = '';
+                if (response.sources.length > 0) {
+                    sourcesHtml = `
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <p class="text-xs font-semibold text-gray-600 mb-2">📚 KILDER:</p>
+                            ${response.sources.map(source => `
+                                <div class="text-xs text-gray-600 mb-2 hover:bg-gray-50 p-2 rounded cursor-pointer">
+                                    <span class="font-medium">${source.title}</span>
+                                    <span class="text-gray-500"> • ${source.date} • ${source.page}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+                aiMsg.innerHTML = `
+                    <div class="flex-shrink-0">
+                        <div class="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center text-white text-sm font-semibold">
+                            AI
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <p class="text-gray-800">${response.answer}</p>
+                            ${sourcesHtml}
+                        </div>
+                    </div>
+                `;
+                chatMessages.appendChild(aiMsg);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 1500);
+        }
+
+        // PDF Viewer
+        function loadDocument(docType) {
+            const docTitle = document.getElementById('docTitle');
+            const pdfContent = document.getElementById('pdfContent');
+
+            const documents = {
+                'klimaplan': {
+                    title: 'Klimaplan 2030',
+                    content: `
+                        <h1 class="text-2xl font-bold mb-4">Klimaplan 2030</h1>
+                        <p class="text-sm text-gray-500 mb-6">Godkendt af Byrådet den 15. december 2024</p>
+
+                        <h2 class="text-xl font-semibold mb-3">1. Vision og Målsætning</h2>
+                        <p class="mb-4">Kalundborg Kommune skal være <span class="pdf-highlight">CO2-neutral senest i 2030</span>. Dette ambitiøse mål kræver en omfattende indsats på tværs af alle sektorer i kommunen.</p>
+
+                        <h2 class="text-xl font-semibold mb-3">2. Centrale Indsatsområder</h2>
+                        <ul class="list-disc pl-6 mb-4 space-y-2">
+                            <li><span class="pdf-highlight">Grøn energiproduktion</span> - Udbygning af sol- og vindenergi</li>
+                            <li><span class="pdf-highlight">Bæredygtig transport</span> - El-busser og cykelinfrastruktur</li>
+                            <li>Energieffektivisering af offentlige bygninger</li>
+                            <li>Grøn omstilling af erhvervslivet</li>
+                        </ul>
+
+                        <h2 class="text-xl font-semibold mb-3">3. Økonomi og Finansiering</h2>
+                        <p class="mb-4">Den samlede investering er estimeret til <span class="pdf-highlight">2,4 milliarder kroner over 6 år</span>, finansieret gennem en kombination af kommunale midler, statslige tilskud og private investeringer.</p>
+
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-6">
+                            <p class="text-sm"><strong>Note:</strong> Dette dokument er en del af den officielle dagsorden og blev godkendt med bred politisk opbakning.</p>
+                        </div>
+                    `
+                },
+                'budget': {
+                    title: 'Budget 2025',
+                    content: `
+                        <h1 class="text-2xl font-bold mb-4">Budget 2025 - Forslag</h1>
+                        <p class="text-sm text-gray-500 mb-6">Fremlagt til 1. behandling den 10. december 2024</p>
+
+                        <h2 class="text-xl font-semibold mb-3">Hovedtal</h2>
+                        <table class="w-full mb-6">
+                            <tr class="border-b">
+                                <td class="py-2 font-medium">Samlede udgifter</td>
+                                <td class="py-2 text-right">3.847 mio. kr.</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-2 font-medium">Samlede indtægter</td>
+                                <td class="py-2 text-right">3.892 mio. kr.</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="py-2 font-medium pdf-highlight">Resultat</td>
+                                <td class="py-2 text-right font-bold pdf-highlight">+45 mio. kr.</td>
+                            </tr>
+                        </table>
+
+                        <h2 class="text-xl font-semibold mb-3">Uddannelse og Børn</h2>
+                        <p class="mb-4"><span class="pdf-highlight">342 millioner kroner til folkeskoler</span> - en stigning på 4,2% som primært går til ansættelse af flere lærere og modernisering af IT-udstyr.</p>
+                    `
+                },
+                'byplan': {
+                    title: 'Byplan Østhavn',
+                    content: `
+                        <h1 class="text-2xl font-bold mb-4">Byplan Østhavn - Lokalplan 2024-08</h1>
+                        <p class="text-sm text-gray-500 mb-6">Offentlig høring afsluttet den 5. december 2024</p>
+
+                        <h2 class="text-xl font-semibold mb-3">Projektbeskrivelse</h2>
+                        <p class="mb-4">Udvikling af nyt <span class="pdf-highlight">blandede boligområde med 450 boliger</span> fordelt på rækkehuse, etageboliger og seniorvenlige boliger.</p>
+
+                        <h2 class="text-xl font-semibold mb-3">Grønne Områder</h2>
+                        <p class="mb-4"><span class="pdf-highlight">30% af arealet reserveres til grønne fællesområder</span> med legepladser, bypark og stisystem.</p>
+                    `
+                }
+            };
+
+            const doc = documents[docType];
+            docTitle.textContent = doc.title;
+            pdfContent.innerHTML = doc.content;
+        }
+
+        // Video Player - opens video modal at specific timestamp
+        function seekVideo(timestamp) {
+            // Map timestamp to video title and open modal
+            let videoTitle = '';
+
+            if (timestamp === '00:02:15') {
+                videoTitle = 'Byrådsmøde - Åbning og velkomst';
+            } else if (timestamp === '00:15:30') {
+                videoTitle = 'Byrådsmøde Video - Klimaplan Diskussion';
+            } else if (timestamp === '00:42:10') {
+                videoTitle = 'Byrådsmøde Video - Budget 2025 Behandling';
+            } else if (timestamp === '01:03:45') {
+                videoTitle = 'Byrådsmøde Video - Byplan Østhavn Godkendelse';
+            } else {
+                videoTitle = 'Byrådsmøde Video';
+            }
+
+            // Open the video in modal
+            openDocumentModal(videoTitle, 'Video', timestamp, '12. dec 2024', 95, '#');
+
+            // Remove previous highlight
+            document.querySelectorAll('.video-timestamp').forEach(el => {
+                el.classList.remove('bg-indigo-50');
+            });
+
+            // Highlight clicked timestamp
+            event.target.closest('.video-timestamp').classList.add('bg-indigo-50');
+
+            // Show toast notification
+            showToast(`Spiller af fra ${timestamp}`);
+        }
+
+        // Toast Notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 2000);
+        }
+
+        // Initialize Charts for Politiker View
+        // Floating Navigation
+        function initFloatingNav() {
+            const navDots = document.querySelectorAll('.nav-dot');
+            const sections = document.querySelectorAll('.section-wrapper');
+
+            navDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const sectionId = dot.getAttribute('data-section');
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Update active dot on scroll
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.pageYOffset >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navDots.forEach(dot => {
+                    dot.classList.remove('active');
+                    if (dot.getAttribute('data-section') === current) {
+                        dot.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // Filter Questions Function
+        function filterQuestions() {
+            const searchText = document.getElementById('questionSearch').value.toLowerCase();
+            const topicFilter = document.getElementById('topicFilter').value;
+            const questionsList = document.getElementById('questionsList');
+            const questions = questionsList.querySelectorAll('.glass-card');
+
+            let visibleCount = 0;
+
+            questions.forEach(question => {
+                const questionTitle = question.querySelector('h3').textContent.toLowerCase();
+                const questionDescription = question.querySelector('p').textContent.toLowerCase();
+                const questionTopicElement = question.querySelector('.text-xs.font-semibold');
+                const questionTopic = questionTopicElement ? questionTopicElement.textContent : '';
+
+                const matchesSearch = searchText === '' ||
+                                      questionTitle.includes(searchText) ||
+                                      questionDescription.includes(searchText);
+                const matchesTopic = topicFilter === '' || questionTopic.includes(topicFilter);
+
+                if (matchesSearch && matchesTopic) {
+                    question.style.display = '';
+                    visibleCount++;
+                } else {
+                    question.style.display = 'none';
+                }
+            });
+
+            document.getElementById('questionCount').textContent = `Viser ${visibleCount} spørgsmål`;
+        }
+
+        // URL Routing with Hash
+        function handleHashChange() {
+            const hash = window.location.hash.slice(1); // Remove #
+
+            if (hash === 'politiker') {
+                switchView('politiker', false); // false = don't update hash (prevent loop)
+            } else if (hash === 'borger') {
+                switchView('borger', false);
+            } else if (hash.startsWith('section-')) {
+                // Handle section navigation like #section-chatSection
+                const sectionId = hash.replace('section-', '');
+                scrollToSection(sectionId);
+            } else if (!hash) {
+                // If no hash, default to borger view
+                switchView('borger', false);
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            initFloatingNav();
+            initSidebar();
+            handleHashChange(); // Handle initial hash
+        });
+
+        // Listen for hash changes
+        window.addEventListener('hashchange', handleHashChange);
+
+        // Sidebar Toggle
+        function initSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarLinks = document.querySelectorAll('.sidebar-nav-item');
+
+            // Toggle sidebar on mobile
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('open');
+                });
+            }
+
+            // Close sidebar when clicking a link on mobile
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 1024) {
+                        sidebar.classList.remove('open');
+                    }
+
+                    // Update active state
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth < 1024) {
+                    if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+                        sidebar.classList.remove('open');
+                    }
+                }
+            });
+        }
+        // Helper function to convert timestamp (HH:MM:SS) to seconds
+        function convertTimestampToSeconds(timestamp) {
+            if (!timestamp || typeof timestamp !== 'string') return 0;
+
+            const parts = timestamp.split(':');
+            let seconds = 0;
+
+            if (parts.length === 3) {
+                // HH:MM:SS format
+                seconds = parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+            } else if (parts.length === 2) {
+                // MM:SS format
+                seconds = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+            }
+
+            return seconds;
+        }
+
+        // Document Modal Functions
+        function openDocumentModal(docTitle, docType, docPages, docDate, docRelevance, docUrl) {
+            const modal = document.getElementById('documentModal');
+            document.getElementById('modalDocTitle').textContent = docTitle;
+            document.getElementById('modalDocType').textContent = docType;
+            document.getElementById('modalDocPages').textContent = docPages;
+            document.getElementById('modalDocDate').textContent = docDate;
+            document.getElementById('modalDocRelevance').textContent = docRelevance + '% relevans';
+
+            const contentArea = document.getElementById('modalDocContent');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const printBtn = document.getElementById('printBtn');
+
+            // Check if this is a video document
+            if (docType === 'Video' || docTitle.toLowerCase().includes('video')) {
+                // Hide download/print buttons for videos
+                downloadBtn.style.display = 'none';
+                printBtn.style.display = 'none';
+                // Extract meeting info and create Kommune-TV embed
+                // Format: https://kalundborg.kommune-tv.dk/video/[meeting-id]
+                // For demo, we'll create realistic embed URLs
+
+                let embedUrl = '';
+                let meetingInfo = '';
+
+                // Map topics to realistic Kommune-TV URLs
+                let baseUrl = '';
+                if (docTitle.includes('Klimaplan')) {
+                    baseUrl = 'https://kalundborg.kommune-tv.dk/embed/8743';
+                    meetingInfo = 'Byrådsmøde - 12. december 2024 - Punkt 5: Klimaplan 2030';
+                } else if (docTitle.includes('Budget')) {
+                    baseUrl = 'https://kalundborg.kommune-tv.dk/embed/8742';
+                    meetingInfo = 'Økonomiudvalg - 10. december 2024 - Punkt 3: Budget 2025';
+                } else if (docTitle.includes('Byplan') || docTitle.includes('Østhavn')) {
+                    baseUrl = 'https://kalundborg.kommune-tv.dk/embed/8744';
+                    meetingInfo = 'Plan og Byg - 8. januar 2025 - Punkt 2: Byplan Østhavn';
+                } else if (docTitle.includes('Åbning')) {
+                    baseUrl = 'https://kalundborg.kommune-tv.dk/embed/8743';
+                    meetingInfo = 'Byrådsmøde - 12. december 2024 - Åbning';
+                } else {
+                    baseUrl = 'https://kalundborg.kommune-tv.dk/embed/8743';
+                    meetingInfo = 'Byrådsmøde - 12. december 2024';
+                }
+
+                // Convert timestamp (HH:MM:SS) to seconds for URL parameter
+                const timeInSeconds = convertTimestampToSeconds(docPages);
+                embedUrl = `${baseUrl}?t=${timeInSeconds}`;
+
+                contentArea.innerHTML = `
+                    <div class="bg-white">
+                        <div class="mb-4">
+                            <p class="text-sm text-gray-600 mb-2"><strong>Møde:</strong> ${meetingInfo}</p>
+                            <p class="text-sm text-gray-500">Videoafspilleren starter ved relevante timestamp: ${docPages}</p>
+                        </div>
+
+                        <!-- Video Player -->
+                        <div class="relative bg-black rounded-lg overflow-hidden" style="padding-bottom: 56.25%; height: 0;">
+                            <iframe
+                                src="${embedUrl}"
+                                class="absolute top-0 left-0 w-full h-full"
+                                frameborder="0"
+                                allowfullscreen
+                                allow="autoplay; fullscreen"
+                                title="${docTitle}"
+                            ></iframe>
+                        </div>
+
+                        <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+                            <h4 class="font-semibold text-sm mb-2">💡 Navigation:</h4>
+                            <ul class="text-sm text-gray-700 space-y-1">
+                                <li>• Videoen springer automatisk til det relevante tidspunkt</li>
+                                <li>• Brug afspilleren til at gå tilbage eller frem</li>
+                                <li>• Klik på fuldskærm for bedre oplevelse</li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-4">
+                            <a href="https://kalundborg.kommune-tv.dk/" target="_blank" rel="noopener noreferrer" class="text-sm text-indigo-600 hover:text-indigo-800 flex items-center space-x-1">
+                                <span>Se alle mødevideoer på Kalundborg Kommune-TV</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Show download/print buttons for PDFs
+                downloadBtn.style.display = 'inline-block';
+                printBtn.style.display = 'inline-block';
+
+                // PDF/Document view (existing code)
+                contentArea.innerHTML = `
+                    <div class="flex items-center justify-center h-full">
+                        <div class="text-center">
+                            <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <p class="text-gray-600 mb-2">Dokument preview ville vises her</p>
+                            <p class="text-sm text-gray-500">I fuld implementation ville PDF viewer være integreret</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDocumentModal() {
+            const modal = document.getElementById('documentModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeDocumentModal();
+            }
+        });
+    </script>
+
+    <!-- Document Modal -->
+    <div id="documentModal" class="hidden fixed inset-0 z-50 overflow-y-auto modal-overlay" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <!-- Background overlay -->
+            <div class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeDocumentModal()"></div>
+
+            <!-- Modal panel -->
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-6xl sm:w-full">
+                <!-- Modal Header -->
+                <div class="bg-white px-6 py-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <h3 id="modalDocTitle" class="text-xl font-bold text-gray-900">Dokument Titel</h3>
+                            <div class="flex items-center space-x-4 mt-2 text-sm text-gray-600">
+                                <span id="modalDocType" class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    PDF Dokument
+                                </span>
+                                <span id="modalDocPages">Side 12-18</span>
+                                <span id="modalDocDate">15. dec 2024</span>
+                                <span id="modalDocRelevance" class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">95% relevans</span>
+                            </div>
+                        </div>
+                        <button onclick="closeDocumentModal()" class="ml-4 text-gray-400 hover:text-gray-600 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal Content -->
+                <div id="modalDocContent" class="bg-gray-50 px-6 py-8" style="min-height: 500px; max-height: 70vh; overflow-y: auto;">
+                    <!-- Document content will be loaded here -->
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-between">
+                    <button onclick="closeDocumentModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium">
+                        Luk
+                    </button>
+                    <div id="modalFooterActions" class="space-x-3">
+                        <button id="downloadBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium">
+                            Download PDF
+                        </button>
+                        <button id="printBtn" class="px-4 py-2 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors font-medium">
+                            Udskriv
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
